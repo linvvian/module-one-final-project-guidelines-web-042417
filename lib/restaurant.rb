@@ -38,11 +38,4 @@ class Restaurant < ActiveRecord::Base
     self.find(x)
   end
 
-  def self.show_restaurant_details
-    for i in 1..3
-      random = random_restaurant
-      puts "#{i}. #{random.name} - Category: #{random.category} Rating: #{random.rating}"
-    end
-  end
-
 end

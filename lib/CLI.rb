@@ -3,6 +3,7 @@ class CommandLineInterface
   def initialize
     @adventure = Adventure.new()
     @user = User.new()
+    @round = 1
   end
 
   #greet the user
@@ -36,12 +37,26 @@ class CommandLineInterface
     puts "Please select the restaurant you would like to eat at: 1, 2, or 3"
   end
 
+  #
+  #def show_restaurant_details(restaurant)
+  #puts "#{restaurant.name} - Category: #{restaurant.category} Rating: #{restaurant.rating}"
+  #end
+
   #kicks off the second and third rounds with an updated wallet total
+
   def round_start
-    if 5 > 0 #should be done in adventure class
-      @adventure.display_wallet
-      Restaurant.show_restaurant_details
-      prompt_user_for_choice
+    if @adventure.wallet > 0.0 #should be done in adventure class
+      if @round <= 3
+        @adventure.display_wallet
+        @adventure.give_options
+        prompt_user_for_choice
+        @adventure.gets_option_choice
+        @adventure.calculate_meal
+        @round += 1
+        round_start
+      else
+        end_of_game_message
+      end
     else
       puts "Game over, you're broke! Welcome to New York."
     end
