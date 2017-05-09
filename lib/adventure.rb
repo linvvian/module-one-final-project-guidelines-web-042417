@@ -38,7 +38,6 @@ class Adventure < ActiveRecord::Base
     self.wallet -= price_calculate
   end
 
-
   def give_options
     for i in 1..3
       option = Restaurant.random_restaurant

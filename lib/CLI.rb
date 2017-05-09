@@ -63,7 +63,7 @@ class CommandLineInterface
 
   #puts end of game message with final wallet total
   def end_of_game_message
-    puts "You finished the day with $#{current_wallet} left in your wallet. Nice job!"
+    puts "You finished the day with $#{@adventure.wallet} left in your wallet. Nice job!"
   end
 
 end
