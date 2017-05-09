@@ -50,7 +50,6 @@ class CommandLineInterface
         @adventure.display_wallet
         @adventure.give_options
         prompt_user_for_choice
-        @adventure.gets_option_choice
         @adventure.calculate_meal
         @round += 1
         round_start
