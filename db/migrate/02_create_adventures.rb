@@ -2,8 +2,8 @@ class CreateAdventures < ActiveRecord::Migration
   def change
     create_table :adventures do |t|
       t.integer :wallet
+      t.integer :score
       t.references :user
-      t.references :restaurant
     end
   end
 end
