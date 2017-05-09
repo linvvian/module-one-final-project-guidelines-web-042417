@@ -1,29 +1,34 @@
 class CommandLineInterface
 
+  def initialize
+    @adventure = Adventure.new()
+    @user = User.new()
+  end
+
   #greet the user
   def greet
     puts "Welcome to the (title here) game!"
-    get_user_name_and_greet_user
+    choose_adventure
   end
 
-  #get the user's name so it can be saved in the database with User model method
-  def get_user_name_and_greet_user
-    puts "Please enter your name:"
-    name = gets.chomp
-    puts "Hi #{name}!"
-    round_start
-  end
-
-  #displays the user's wallet amount at the beginning(amount generated in Adventure class?)
-  def display_wallet(amount = 30.00)
-    puts "You have $#{amount} in your wallet and three meals to eat! Let's get started!"
-  end
-
-  #displays three restaurants
-  def show_restaurant_details
-    puts "1.#{random_restaurant.name} - #{random_restaurant.type} - #{random_restaurant.rating}"
-    puts "2.#{random_restaurant.name} - #{random_restaurant.type} - #{random_restaurant.rating}"
-    puts "3.#{random_restaurant.name} - #{random_restaurant.type} - #{random_restaurant.rating}"
+  def choose_adventure
+    puts "1. Start your adventure"
+    puts "2. I do nothing"
+    puts "3. Exit"
+    puts "Pick a number: "
+    input = gets.chomp
+    case input
+    when "1"
+      # @adventure
+      puts "Please enter your name:"
+      puts puts "Hi #{@user.get_set_name}!"
+      round_start
+    when "3"
+      exit
+    else
+      puts "Choose RIGHT choice, READ"
+      choose_adventure
+    end
   end
 
   #prompts user for choice and gets user input
@@ -34,8 +39,8 @@ class CommandLineInterface
   #kicks off the second and third rounds with an updated wallet total
   def round_start
     if 5 > 0 #should be done in adventure class
-      display_wallet
-      show_restaurant_details
+      @adventure.display_wallet
+      Restaurant.show_restaurant_details
       prompt_user_for_choice
     else
       puts "Game over, you're broke! Welcome to New York."

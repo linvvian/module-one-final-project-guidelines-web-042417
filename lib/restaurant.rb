@@ -1,6 +1,6 @@
 class Restaurant < ActiveRecord::Base
   belongs_to :adventure
-  
+
   def self.parse_restaurants
     results = []
     Adapter.gets_results["response"]["groups"][0]["items"].each do |restaurant|
@@ -25,6 +25,24 @@ class Restaurant < ActiveRecord::Base
       results << hash
     end
     results
+  end
+
+  def self.insert_to_table
+    parse_restaurants.each do |rest_hash|
+      self.create(rest_hash)
+    end
+  end
+
+  def self.random_restaurant
+    x = rand(1..50)
+    self.find(x)
+  end
+
+  def self.show_restaurant_details
+    for i in 1..3
+      random = random_restaurant
+      puts "#{i}. #{random.name} - Category: #{random.category} Rating: #{random.rating}"
+    end
   end
 
 end
