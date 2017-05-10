@@ -62,12 +62,26 @@ module Speak
     puts @@c.asciify("Hi  #{user_name}!") 
   end
 
-  def prompt_user_for_choice
-    puts "---------------------------------"
-    puts "Please select the restaurant"
-    puts "you would like to eat at:"
-    puts "(1, 2, or 3)"
-    puts "---------------------------------"
+  def options_for_meals(round)
+    meal_time = ''
+    case round
+    when 1
+      meal_time = "Breakfast"
+    when 1
+      meal_time = "Lunch"
+    when 1
+      meal_time = "Dinner"
+    end
+    puts "------------------------------------------------"
+    puts "It\'s time for #{meal_time}!"
+    puts ''
+    puts "Below are 3 restaurants."
+    puts "Enter the number that corresponds to"
+    puts "the restaurant where you would like to eat."
+    puts ''
+    puts "If you would like to blurb about the restuarant" 
+    puts "from a previous patron enter \"blurb\""
+    puts "------------------------------------------------"
   end
 
   def lost_end_game_message

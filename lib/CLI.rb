@@ -39,9 +39,9 @@ class CommandLineInterface
     if @adventure.wallet_now > 0.0 #should be done in adventure class
       if @round <= 3
         @adventure.display_wallet
+        options_for_meals(@round) # just added
         @adventure.give_options
-        @adventure.prompt_give_tip
-        prompt_user_for_choice
+        #@adventure.prompt_give_tip
         @adventure.calculate_meal
         @adventure.reset_choice_array
         @round += 1
