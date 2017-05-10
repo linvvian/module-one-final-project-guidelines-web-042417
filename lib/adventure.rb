@@ -6,7 +6,7 @@ class Adventure < ActiveRecord::Base
   attr_accessor :wallet_now, :start_wallet, :array
 
   def self.start_new_adventure(userID)
-    adv = self.new()
+    adv = Adventure.create
     adv.start_wallet = 30.00
     adv.wallet_now = 30.00
     adv.array = []
@@ -57,7 +57,9 @@ class Adventure < ActiveRecord::Base
     input = gets.chomp
     input = input.to_i
     input -= 1
-    @array[input]
+    chosen = @array[input]
+    MealChoice.chosen_meal(self.id, chosen.id)
+    chosen
   end
 
   def prompt_give_tip
