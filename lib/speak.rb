@@ -51,12 +51,15 @@ module Speak
     puts ''
   end
 
-  def get_and_display_user_name(user_name)
-      puts "---------------------------------"
-      puts "Please enter your name:"
-      puts "---------------------------------"
-      puts ''
-      puts @@c.asciify("Hi #{user_name}!") 
+  def prompt_for_name
+    puts "---------------------------------"
+    puts "Please enter your name:"
+    puts "---------------------------------"
+  end
+
+  def get_name(user_name)
+    puts ''
+    puts @@c.asciify("Hi  #{user_name}!") 
   end
 
   def prompt_user_for_choice
@@ -76,7 +79,7 @@ module Speak
   def finished_end_of_game_message
     puts @@b.asciify('You finished the day with')
     puts ''
-    puts @@b.asciify("$#{@adventure.wallet}")
+    puts @@b.asciify("$#{@adventure.wallet_now.round(2)}")
     puts ''
     puts @@b.asciify('left in your wallet.')
     puts ''

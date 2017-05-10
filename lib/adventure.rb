@@ -1,4 +1,6 @@
 class Adventure < ActiveRecord::Base
+  include Speak
+
   belongs_to :user
   has_many :meal_choices
   has_many :restaurants, through: :meal_choices
@@ -63,11 +65,16 @@ class Adventure < ActiveRecord::Base
 
   def gets_option_choice
     input = gets.chomp
-    input = input.to_i
-    input -= 1
-    chosen = @array[input]
-    MealChoice.chosen_meal(self.id, chosen.id)
-    chosen
+    if input.to_i == 0 || input.to_i > 3
+      not_valid_input
+      gets_option_choice    
+    else 
+      input = input.to_i
+      input -= 1
+      chosen = @array[input]
+      MealChoice.chosen_meal(self.id, chosen.id)
+      chosen
+    end
   end
 
   def prompt_give_tip

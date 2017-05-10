@@ -1,8 +1,10 @@
 class User < ActiveRecord::Base
+  include Speak
+
   has_many :adventures
 
   def get_set_name
-    puts "Please enter your name:"
+    prompt_for_name
     self.name = gets.chomp
   end
 
@@ -16,14 +18,11 @@ class User < ActiveRecord::Base
     elsif input.downcase == "n"
       u.get_set_name
       u = u.find_user
-      puts "Found you!"
     else
-      puts "Invalid input"
+      u.not_valid_input
       self.new_user?
     end
-    puts "Hi #{u.name}!"
     u
-
   end
 
   def create_user
@@ -34,11 +33,13 @@ class User < ActiveRecord::Base
 
   def find_user
     found = User.find_by(name: self.name)
-    if nil == found
+    if found == nil
       puts "Could not find. Try again or create new."
       User.new_user?
-    end
-    found
+    else
+      puts "Found you!"
+      found
+    end   
   end
 
 end

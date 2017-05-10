@@ -17,7 +17,7 @@ class CommandLineInterface
     case input
     when "1"
       player = User.new_user?
-      get_and_display_user_name(player.name)
+      get_name(player.name)
       @adventure = Adventure.start_new_adventure(player.id)
       round_start
     when "2"
@@ -55,5 +55,8 @@ class CommandLineInterface
       @adventure.score = 0
     end
     @adventure.save
+    puts "Press Enter To Return To Main Menu"
+    STDIN.getch
+    greet
   end
 end
