@@ -18,7 +18,7 @@ class CommandLineInterface
       @round = 1
       round_start
     when "2"
-      puts "ARE YOU HAPPY NOW?!"
+      snarky_response
       choose_adventure
     when "3"
       Adventure.show_high_scores
@@ -36,9 +36,9 @@ class CommandLineInterface
     if @adventure.wallet_now > 0.0 #should be done in adventure class
       if @round <= 3
         @adventure.display_wallet
+        options_for_meals(@round) # just added
         @adventure.give_options
-        @adventure.prompt_give_tip
-        prompt_user_for_choice
+        #@adventure.prompt_give_tip
         @adventure.calculate_meal
         @adventure.reset_choice_array
         @round += 1
@@ -53,7 +53,7 @@ class CommandLineInterface
     end
     @adventure.user.set_high_score?(@adventure.score_calculator)
     @adventure.save
-    puts "Press Enter To Return To Main Menu"
+    return_main_menu_message
     STDIN.getch
     greet
   end

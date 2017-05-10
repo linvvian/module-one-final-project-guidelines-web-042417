@@ -10,12 +10,15 @@ class User < ActiveRecord::Base
 
   def self.new_user?
     u = User.new
-    puts "Is this your first adventure? (y)es or (n)o"
+    puts "---------------------------------"
+    puts 'Is this your first adventure?'
+    puts 'Please enter: Yes or No' 
+    puts "---------------------------------"
     input = gets.chomp
-    if input.downcase == "y"
+    if input.downcase == "yes"
       u.get_set_name
       u = u.create_user
-    elsif input.downcase == "n"
+    elsif input.downcase == "no"
       u.get_set_name
       u = u.find_user
     else
@@ -27,17 +30,25 @@ class User < ActiveRecord::Base
 
   def create_user
     new_player = User.where(name: self.name).first_or_create
-    puts "Now you're registered"
+    puts "---------------------------------"
+    puts "Thank you for registering!" 
+    puts "You\'re all set"
+    puts "---------------------------------"
     new_player
   end
 
   def find_user
     found = User.find_by(name: self.name)
     if found == nil
-      puts "Could not find. Try again or create new."
+      puts "---------------------------------"
+      puts "Could not find your username." 
+      puts "Try again or create new usernam."
+      puts "---------------------------------"
       User.new_user?
     else
-      puts "Found you!"
+      puts "---------------------------------"
+      puts "Found your username!"
+      puts "---------------------------------"
       found
     end
   end
@@ -52,5 +63,4 @@ class User < ActiveRecord::Base
     puts "YOUR HIGH SCORE IS: #{self.high_score}"
     puts "=================PLACEHOLDER==================="
   end
-
 end

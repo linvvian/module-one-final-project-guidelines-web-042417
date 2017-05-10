@@ -15,11 +15,9 @@ class Adventure < ActiveRecord::Base
     adv.tap {|adv| adv.user_id = userID}
   end
 
-# put in CLI
-  def display_wallet # this is getting called every round - we should change that
+  def display_wallet
     puts "---------------------------------"
     puts "You have $#{self.wallet_now.round(2)} in your wallet."
-    puts "Let's get started!"
     puts "---------------------------------"
   end
 
@@ -47,7 +45,10 @@ class Adventure < ActiveRecord::Base
     self.wallet_now -= price_calculate
     if self.wallet_now < 0.0
       puts "You don't have enough money! You went over by $#{(self.wallet_now.round(2) * -1)}. Time to WASH DISHES!"
+<<<<<<< HEAD
       puts  "======================PLACEHOLDER======================="
+=======
+>>>>>>> 97d485978df71f50f7a4c97ac7ed4133fc2a4ec7
     end
   end
 
@@ -55,7 +56,7 @@ class Adventure < ActiveRecord::Base
     for i in 1..3
       option = Restaurant.random_restaurant
       puts '<><><><><><><><><><><><><><><><><><><><><>'
-      puts "- (#{i})                                  "
+      puts "- #{i}                                    "
       puts "- Name: #{option.name}                    "
       puts "- Category: #{option.category}            "
       puts "- Rating: #{option.rating}                "
@@ -66,10 +67,20 @@ class Adventure < ActiveRecord::Base
 
   def gets_option_choice
     input = gets.chomp
-    if input.to_i == 0 || input.to_i > 3
+    if input == 'blurb'
+      prompt_give_tip
+      choose_restaurant_message
+      gets_option_choice
+    elsif input.to_i == 0 || input.to_i > 3
       not_valid_input
+<<<<<<< HEAD
       gets_option_choice
     else
+=======
+      choose_restaurant_message
+      gets_option_choice    
+    else 
+>>>>>>> 97d485978df71f50f7a4c97ac7ed4133fc2a4ec7
       input = input.to_i
       input -= 1
       chosen = @array[input]
@@ -79,12 +90,10 @@ class Adventure < ActiveRecord::Base
   end
 
   def prompt_give_tip
-    puts "Do you want to see blurb from a previous customer? Enter: Yes or No"
-    input = gets.chomp
-    if input.downcase == "yes" || input.downcase == "y"
-      @array.each.with_index do |rest, index|
-        puts "Choice #{index+1}. #{rest.name} Tip: #{rest.tips}"
-      end
+    @array.each.with_index do |rest, index|
+      puts "====="
+      puts " #{index+1} - #{rest.name} - Blurb: #{rest.tips}"
+      puts "====="
     end
     puts ""
   end
@@ -115,8 +124,12 @@ class Adventure < ActiveRecord::Base
   end
 
   def lost_wallet
+<<<<<<< HEAD
     puts "Oh no! You lost your wallet!"
     puts  "======================PLACEHOLDER======================="
+=======
+    stolen_wallet_message
+>>>>>>> 97d485978df71f50f7a4c97ac7ed4133fc2a4ec7
     self.wallet_now = 0.0
   end
 end
