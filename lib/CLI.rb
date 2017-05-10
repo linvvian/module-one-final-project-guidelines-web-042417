@@ -20,8 +20,15 @@ class CommandLineInterface
       get_and_display_user_name(player.name)
       @adventure = Adventure.start_new_adventure(player.id)
       round_start
+    when "2"
+      puts "ARE YOU HAPPY NOW?!"
+      choose_adventure
     when "3"
       exit
+    # when "4"
+      # show highscore
+    # when "5"
+      # show top 5 restaurants
     else
       not_valid_input
       choose_adventure
@@ -43,13 +50,10 @@ class CommandLineInterface
       else
         finished_end_of_game_message
       end
-
     else
-
       lost_end_game_message
       @adventure.score = 0
     end
-
     @adventure.save
   end
 end

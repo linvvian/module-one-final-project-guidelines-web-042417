@@ -34,6 +34,10 @@ module Speak
     puts "############################################"
   end
 
+  def not_valid_input
+    puts @@e.asciify("NOT VALID!")
+  end
+
   def main_menu
     puts ''
     puts "---------------------------------"
@@ -41,9 +45,9 @@ module Speak
     puts " (Or Don't - It's Your Life...)"
     puts "---------------------------------"
     puts ''
-    puts " (1) - Start your adventure -"
-    puts " (2) - I do nothing         -"
-    puts " (3) - Exit                 -"
+    puts " 1 - Start your adventure -"
+    puts " 2 - I do nothing         -"
+    puts " 3 - Exit                 -"
     puts ''
   end
 

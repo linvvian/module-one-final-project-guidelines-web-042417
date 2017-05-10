@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 4) do
 
   create_table "users", force: :cascade do |t|
     t.string  "name"
-    t.integer "high_score"
+    t.integer "high_score", default: 0
   end
 
 end

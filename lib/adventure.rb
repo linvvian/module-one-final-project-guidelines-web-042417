@@ -16,7 +16,7 @@ class Adventure < ActiveRecord::Base
 # put in CLI
   def display_wallet # this is getting called every round - we should change that
     puts "---------------------------------"
-    puts "You have $#{self.wallet.round(2)} in your wallet."
+    puts "You have $#{self.wallet_now.round(2)} in your wallet."
     puts "Let's get started!"
     puts "---------------------------------"
   end
@@ -71,7 +71,7 @@ class Adventure < ActiveRecord::Base
   end
 
   def prompt_give_tip
-    puts "Do you want to see tips? Enter: yes or no"
+    puts "Do you want to see blurb from a previous customer? Enter: Yes or No"
     input = gets.chomp
     if input.downcase == "yes" || input.downcase == "y"
       @array.each.with_index do |rest, index|
