@@ -47,12 +47,12 @@ module Speak
     puts ''
   end
 
-  def get_and_display_user_name
+  def get_and_display_user_name(user_name)
       puts "---------------------------------"
       puts "Please enter your name:"
       puts "---------------------------------"
       puts ''
-      puts @@c.asciify("Hi #{@user.get_set_name}!") 
+      puts @@c.asciify("Hi #{user_name}!") 
   end
 
   def prompt_user_for_choice

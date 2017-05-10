@@ -16,8 +16,8 @@ class CommandLineInterface
     input = gets.chomp
     case input
     when "1"
-      get_and_display_user_name
       player = User.new_user?
+      get_and_display_user_name(player.name)
       @adventure = Adventure.start_new_adventure(player.id)
       round_start
     when "3"
