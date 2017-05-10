@@ -10,12 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 3) do
+ActiveRecord::Schema.define(version: 4) do
 
   create_table "adventures", force: :cascade do |t|
     t.integer "wallet"
     t.integer "score"
     t.integer "user_id"
+  end
+
+  create_table "meal_choices", force: :cascade do |t|
+    t.integer "adventure_id"
+    t.integer "restaurant_id"
   end
 
   create_table "restaurants", force: :cascade do |t|

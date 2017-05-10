@@ -19,7 +19,6 @@ class CommandLineInterface
     case input
     when "1"
       player = User.new_user?
-      binding.pry
       @adventure = Adventure.start_new_adventure(player.id)
       round_start
     when "3"
@@ -63,9 +62,7 @@ class CommandLineInterface
       @adventure.score = 0
     end
 
-    binding.pry
     @adventure.save
-    binding.pry
   end
 
   #puts end of game message with final wallet total

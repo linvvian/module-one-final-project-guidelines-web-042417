@@ -1,6 +1,7 @@
 class Adventure < ActiveRecord::Base
   belongs_to :user
-  has_many :restaurants
+  has_many :meal_choices
+  has_many :restaurants, through: :meal_choices
 
   attr_accessor :wallet_now, :start_wallet, :array
 

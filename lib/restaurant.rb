@@ -1,5 +1,6 @@
 class Restaurant < ActiveRecord::Base
-  belongs_to :adventure
+  has_many :meal_choices
+  has_many :adventures, through: :meal_choices
 
   def self.parse_restaurants
     results = []

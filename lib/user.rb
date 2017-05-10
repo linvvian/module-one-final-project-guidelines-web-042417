@@ -27,8 +27,9 @@ class User < ActiveRecord::Base
   end
 
   def create_user
-    User.where(name: self.name).first_or_create
+    new_player = User.where(name: self.name).first_or_create
     puts "Now you're registered"
+    new_player
   end
 
   def find_user
