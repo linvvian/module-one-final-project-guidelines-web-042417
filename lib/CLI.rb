@@ -1,4 +1,5 @@
 class CommandLineInterface
+  # load ASCII fonts
   @@a = Artii::Base.new :font => 'slant'
   @@b = Artii::Base.new :font => 'banner3'
   @@c = Artii::Base.new :font => 'big'
@@ -9,8 +10,6 @@ class CommandLineInterface
   @@h = Artii::Base.new :font => 'isometric1'
   @@i = Artii::Base.new :font => 'isometric2'
   
-
-
   def initialize
     @adventure = Adventure.new()
     @user = User.new()

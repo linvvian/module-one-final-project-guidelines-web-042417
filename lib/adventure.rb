@@ -10,8 +10,11 @@ class Adventure < ActiveRecord::Base
   end
 
 # put in CLI
-  def display_wallet
-    puts "You have $#{self.wallet} in your wallet and three meals to eat! Let's get started!"
+  def display_wallet # this is getting called every round - we should change that
+    puts "---------------------------------"
+    puts "You have $#{self.wallet} in your wallet."
+    puts "Let's get started!"
+    puts "---------------------------------"
   end
 
   def price_calculate
@@ -42,7 +45,12 @@ class Adventure < ActiveRecord::Base
   def give_options
     for i in 1..3
       option = Restaurant.random_restaurant
-      puts "#{i}. #{option.name} - Category: #{option.category} Rating: #{option.rating}"
+      puts '<><><><><><><><><><><><><><><><><><><><><>'
+      puts "- (#{i})                                  " 
+      puts "- Name: #{option.name}                    " 
+      puts "- Category: #{option.category}            "
+      puts "- Rating: #{option.rating}                "
+      puts '<><><><><><><><><><><><><><><><><><><><><>'
       @array << option
     end
   end
