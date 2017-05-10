@@ -1,5 +1,6 @@
 class CommandLineInterface
-
+  include Speak 
+  
   def initialize
     @adventure = Adventure.new()
     @user = User.new()
@@ -8,41 +9,24 @@ class CommandLineInterface
 
   #greet the user
   def greet
-    puts "Welcome to the (title here) game!"
+    greet_and_rules
     choose_adventure
   end
 
   def choose_adventure
-    puts "1. Start your adventure"
-    puts "2. I do nothing"
-    puts "3. Exit"
-    puts "Pick a number: "
+    main_menu
     input = gets.chomp
     case input
     when "1"
-      # @adventure
-      puts "Please enter your name:"
-      puts puts "Hi #{@user.get_set_name}!"
+      get_and_display_user_name
       round_start
     when "3"
       exit
     else
-      puts "Choose RIGHT choice, READ"
+      not_valid_input
       choose_adventure
     end
   end
-
-  #prompts user for choice and gets user input
-  def prompt_user_for_choice
-    puts "Please select the restaurant you would like to eat at: 1, 2, or 3"
-  end
-
-  #
-  #def show_restaurant_details(restaurant)
-  #puts "#{restaurant.name} - Category: #{restaurant.category} Rating: #{restaurant.rating}"
-  #end
-
-  #kicks off the second and third rounds with an updated wallet total
 
   def round_start
     if @adventure.wallet > 0.0 #should be done in adventure class
@@ -54,16 +38,10 @@ class CommandLineInterface
         @round += 1
         round_start
       else
-        end_of_game_message
+        finished_end_of_game_message
       end
     else
-      puts "Game over, you're broke! Welcome to New York."
+      lost_end_game_message
     end
   end
-
-  #puts end of game message with final wallet total
-  def end_of_game_message
-    puts "You finished the day with $#{@adventure.wallet} left in your wallet. Nice job!"
-  end
-
 end
