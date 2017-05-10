@@ -11,7 +11,7 @@ class Adventure < ActiveRecord::Base
 
 # put in CLI
   def display_wallet
-    puts "You have $#{self.wallet} in your wallet and three meals to eat! Let's get started!"
+    puts "You have $#{self.wallet.round(2)} left in your wallet!"
   end
 
   def price_calculate
@@ -19,15 +19,15 @@ class Adventure < ActiveRecord::Base
     wallet_hit = 0.00
     case price
     when 1
-      wallet_hit = 8.00
+      wallet_hit = rand(5.0..8.0).round(2)
     when 2
-      wallet_hit = 10.00
+      wallet_hit = rand(10.0..13.0).round(2)
     when 3
-      wallet_hit = 12.00
+      wallet_hit = rand(14.0..16.0).round(2)
     when 4
-      wallet_hit = 15.00
+      wallet_hit = rand(17.0..19.0).round(2)
     when 5
-      wallet_hit = 20.00
+      wallet_hit = rand(20.0..25.0).round(2)
     else
       wallet_hit = 30.00
     end
@@ -36,6 +36,9 @@ class Adventure < ActiveRecord::Base
 
   def calculate_meal
     self.wallet -= price_calculate
+    if self.wallet < 0.0
+      puts "You don't have enough money! You went over by $#{(self.wallet * -1)}. Time to WASH DISHES!"
+    end
   end
 
   def give_options
@@ -51,5 +54,33 @@ class Adventure < ActiveRecord::Base
     input = input.to_i
     input -= 1
     @array[input]
+  end
+
+  def prompt_give_tip
+    puts "Do you want to see tips? Enter: yes or no"
+    input = gets.chomp
+    if input.downcase == "yes" || input.downcase == "y"
+      @array.each.with_index do |rest, index|
+        puts "Choice #{index+1}. #{rest.name} Tip: #{rest.tips}"
+      end
+    end
+    puts ""
+  end
+
+  def reset_choice_array
+    @array.clear
+  end
+
+  def random_event
+    num = rand(1..10)
+    case num
+    when 2
+      lost_wallet
+    end
+  end
+
+  def lost_wallet
+    puts "Oh no! You lost your wallet!"
+    self.wallet = 0.0
   end
 end
