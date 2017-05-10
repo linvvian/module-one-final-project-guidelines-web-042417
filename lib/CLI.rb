@@ -21,7 +21,7 @@ class CommandLineInterface
       @adventure = Adventure.start_new_adventure(player.id)
       round_start
     when "2"
-      puts "ARE YOU HAPPY NOW?!"
+      snarky_response
       choose_adventure
     when "3"
       exit
@@ -55,7 +55,7 @@ class CommandLineInterface
       @adventure.score = 0
     end
     @adventure.save
-    puts "Press Enter To Return To Main Menu"
+    return_main_menu_message
     STDIN.getch
     greet
   end

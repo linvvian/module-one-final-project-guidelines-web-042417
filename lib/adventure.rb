@@ -52,7 +52,7 @@ class Adventure < ActiveRecord::Base
     for i in 1..3
       option = Restaurant.random_restaurant
       puts '<><><><><><><><><><><><><><><><><><><><><>'
-      puts "- #{i}                                  "
+      puts "- #{i}                                    "
       puts "- Name: #{option.name}                    "
       puts "- Category: #{option.category}            "
       puts "- Rating: #{option.rating}                "
@@ -65,11 +65,11 @@ class Adventure < ActiveRecord::Base
     input = gets.chomp
     if input == 'blurb'
       prompt_give_tip
-      puts "Please choose a restaurant"
+      choose_restaurant_message
       gets_option_choice
     elsif input.to_i == 0 || input.to_i > 3
       not_valid_input
-      puts 'Please enter a valid option'
+      choose_restaurant_message
       gets_option_choice    
     else 
       input = input.to_i
@@ -82,7 +82,9 @@ class Adventure < ActiveRecord::Base
 
   def prompt_give_tip
     @array.each.with_index do |rest, index|
+      puts "====="
       puts " #{index+1} - #{rest.name} - Blurb: #{rest.tips}"
+      puts "====="
     end
     puts ""
   end
@@ -105,7 +107,7 @@ class Adventure < ActiveRecord::Base
   end
 
   def lost_wallet
-    puts "Oh no! You lost your wallet!"
+    stolen_wallet_message
     self.wallet_now = 0.0
   end
 end
