@@ -3,7 +3,6 @@ class CommandLineInterface
   
   def initialize
     @adventure = Adventure.new()
-    @user = User.new()
     @round = 1
   end
 
@@ -19,6 +18,7 @@ class CommandLineInterface
     case input
     when "1"
       get_and_display_user_name
+      User.new_user?
       round_start
     when "3"
       exit
@@ -33,13 +33,17 @@ class CommandLineInterface
       if @round <= 3
         @adventure.display_wallet
         @adventure.give_options
+        @adventure.prompt_give_tip
         prompt_user_for_choice
         @adventure.calculate_meal
+        @adventure.reset_choice_array
         @round += 1
+        @adventure.random_event
         round_start
       else
         finished_end_of_game_message
       end
+
     else
       lost_end_game_message
     end
