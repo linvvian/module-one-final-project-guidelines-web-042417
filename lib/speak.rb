@@ -34,6 +34,11 @@ module Speak
     puts "############################################"
   end
 
+  def not_valid_input
+    puts "NOT VALID!"
+  end
+
+
   def main_menu
     puts ''
     puts "---------------------------------"
