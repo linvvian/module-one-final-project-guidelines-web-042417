@@ -1,7 +1,6 @@
 class CommandLineInterface
 
   def initialize
-    @adventure = Adventure.new()
     @round = 1
   end
 
@@ -19,7 +18,9 @@ class CommandLineInterface
     input = gets.chomp
     case input
     when "1"
-      User.new_user?
+      player = User.new_user?
+      binding.pry
+      @adventure = Adventure.start_new_adventure(player.id)
       round_start
     when "3"
       exit
@@ -42,7 +43,7 @@ class CommandLineInterface
   #kicks off the second and third rounds with an updated wallet total
 
   def round_start
-    if @adventure.wallet > 0.0 #should be done in adventure class
+    if @adventure.wallet_now > 0.0 #should be done in adventure class
       if @round <= 3
         @adventure.display_wallet
         @adventure.give_options
@@ -59,12 +60,18 @@ class CommandLineInterface
 
     else
       puts "Game over, you're broke! Welcome to New York."
+      @adventure.score = 0
     end
+
+    binding.pry
+    @adventure.save
+    binding.pry
   end
 
   #puts end of game message with final wallet total
   def end_of_game_message
-    puts "You finished the day with $#{@adventure.wallet} left in your wallet. Nice job!"
+    puts "You finished the day with $#{@adventure.wallet_now} left in your wallet. Nice job!"
+    puts "Your score:  #{@adventure.score_calculator}."
   end
 
 end

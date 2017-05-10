@@ -12,10 +12,10 @@ class User < ActiveRecord::Base
     input = gets.chomp
     if input.downcase == "y"
       u.get_set_name
-      u.create_user
+      u = u.create_user
     elsif input.downcase == "n"
       u.get_set_name
-      u.find_user
+      u = u.find_user
       puts "Found you!"
     else
       puts "Invalid input"
@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
     end
     puts "Hi #{u.name}!"
     u
+
   end
 
   def create_user
@@ -36,6 +37,7 @@ class User < ActiveRecord::Base
       puts "Could not find. Try again or create new."
       User.new_user?
     end
+    found
   end
 
 end

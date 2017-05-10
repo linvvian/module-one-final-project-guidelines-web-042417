@@ -2,16 +2,19 @@ class Adventure < ActiveRecord::Base
   belongs_to :user
   has_many :restaurants
 
-  attr_accessor :wallet, :score
+  attr_accessor :wallet_now, :start_wallet, :array
 
-  def initialize(wallet = 30.00)
-    @wallet = wallet
-    @array = []
+  def self.start_new_adventure(userID)
+    adv = self.new()
+    adv.start_wallet = 30.00
+    adv.wallet_now = 30.00
+    adv.array = []
+    adv.tap {|adv| adv.user_id = userID}
   end
 
 # put in CLI
   def display_wallet
-    puts "You have $#{self.wallet.round(2)} left in your wallet!"
+    puts "You have $#{self.wallet_now.round(2)} left in your wallet!"
   end
 
   def price_calculate
@@ -35,9 +38,9 @@ class Adventure < ActiveRecord::Base
   end
 
   def calculate_meal
-    self.wallet -= price_calculate
-    if self.wallet < 0.0
-      puts "You don't have enough money! You went over by $#{(self.wallet * -1)}. Time to WASH DISHES!"
+    self.wallet_now -= price_calculate
+    if self.wallet_now < 0.0
+      puts "You don't have enough money! You went over by $#{(self.wallet_now * -1)}. Time to WASH DISHES!"
     end
   end
 
@@ -71,6 +74,11 @@ class Adventure < ActiveRecord::Base
     @array.clear
   end
 
+  def score_calculator
+    @score = (self.wallet_now.round(2) / @start_wallet) * 10000
+    @score.round
+  end
+
   def random_event
     num = rand(1..10)
     case num
@@ -81,6 +89,6 @@ class Adventure < ActiveRecord::Base
 
   def lost_wallet
     puts "Oh no! You lost your wallet!"
-    self.wallet = 0.0
+    self.wallet_now = 0.0
   end
 end
