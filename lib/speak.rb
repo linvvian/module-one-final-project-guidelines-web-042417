@@ -59,7 +59,7 @@ module Speak
 
   def get_name(user_name)
     puts ''
-    puts @@c.asciify("Hi  #{user_name}!") 
+    puts @@c.asciify("Hi  #{user_name}!")
   end
 
   def prompt_user_for_choice

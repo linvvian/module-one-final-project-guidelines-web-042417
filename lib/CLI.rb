@@ -1,10 +1,6 @@
 class CommandLineInterface
   include Speak
 
-  def initialize
-    @round = 1
-  end
-
   #greet the user
   def greet
     greet_and_rules
@@ -19,14 +15,15 @@ class CommandLineInterface
       player = User.new_user?
       get_name(player.name)
       @adventure = Adventure.start_new_adventure(player.id)
+      @round = 1
       round_start
     when "2"
       puts "ARE YOU HAPPY NOW?!"
       choose_adventure
     when "3"
+      Adventure.show_high_scores
+    when "4"
       exit
-    # when "4"
-      # show highscore
     # when "5"
       # show top 5 restaurants
     else
@@ -54,6 +51,7 @@ class CommandLineInterface
       lost_end_game_message
       @adventure.score = 0
     end
+    @adventure.user.set_high_score?(@adventure.score_calculator)
     @adventure.save
     puts "Press Enter To Return To Main Menu"
     STDIN.getch

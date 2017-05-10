@@ -46,7 +46,8 @@ class Adventure < ActiveRecord::Base
   def calculate_meal
     self.wallet_now -= price_calculate
     if self.wallet_now < 0.0
-      puts "You don't have enough money! You went over by $#{(self.wallet_now * -1)}. Time to WASH DISHES!"
+      puts "You don't have enough money! You went over by $#{(self.wallet_now.round(2) * -1)}. Time to WASH DISHES!"
+      puts  "======================PLACEHOLDER======================="
     end
   end
 
@@ -67,8 +68,8 @@ class Adventure < ActiveRecord::Base
     input = gets.chomp
     if input.to_i == 0 || input.to_i > 3
       not_valid_input
-      gets_option_choice    
-    else 
+      gets_option_choice
+    else
       input = input.to_i
       input -= 1
       chosen = @array[input]
@@ -93,8 +94,16 @@ class Adventure < ActiveRecord::Base
   end
 
   def score_calculator
-    @score = (self.wallet_now.round(2) / @start_wallet) * 10000
-    @score.round
+    self.score = (self.wallet_now.round(2) / @start_wallet) * 10000
+    self.score = self.score.round
+  end
+
+  def self.show_high_scores
+    highs = self.all.order(score: :desc).limit(5).pluck(:user_id, :score)
+    highs.each do |pair|
+      puts "#{User.find(pair[0]).name} #{pair[1]}"
+      puts  "======================PLACEHOLDER======================="
+    end
   end
 
   def random_event
@@ -107,6 +116,7 @@ class Adventure < ActiveRecord::Base
 
   def lost_wallet
     puts "Oh no! You lost your wallet!"
+    puts  "======================PLACEHOLDER======================="
     self.wallet_now = 0.0
   end
 end

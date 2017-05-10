@@ -39,7 +39,18 @@ class User < ActiveRecord::Base
     else
       puts "Found you!"
       found
-    end   
+    end
+  end
+
+  def set_high_score?(score)
+    if score > self.high_score
+      self.high_score = score
+      self.save
+      puts "Congratz! You set a new personal high score #{self.high_score}"
+      puts "=================PLACEHOLDER==================="
+    end
+    puts "YOUR HIGH SCORE IS: #{self.high_score}"
+    puts "=================PLACEHOLDER==================="
   end
 
 end
