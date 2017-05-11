@@ -8,21 +8,21 @@ class Adventure < ActiveRecord::Base
   attr_accessor :wallet_now, :start_wallet, :array, :count
 
   def self.start_new_adventure(userID)
-    adv = Adventure.create
-    adv.count = 0
-    adv.start_wallet = 30.00
-    adv.wallet_now = 30.00
-    adv.array = []
-    adv.tap {|adv| adv.user_id = userID}
+    adventure = Adventure.create
+    #adventure.count = 1
+    adventure.start_wallet = 30.00
+    adventure.wallet_now = 30.00
+    adventure.array = []
+    adventure.tap {|adventure| adventure.user_id = userID}
   end
 
-  def self.begin_round(adv, round)
-    adv.display_wallet
-    adv.options_for_meals(round)
-    adv.give_options
-    adv.calculate_meal
-    adv.reset_choice_array
-    adv.random_event if adv.wallet_now > 0.0 && round != 3
+  def self.begin_round(adventure, round)
+    adventure.display_wallet
+    adventure.options_for_meals(round)
+    adventure.give_options
+    adventure.calculate_meal
+    adventure.reset_choice_array
+    adventure.random_event if adventure.wallet_now > 0.0 && round != 3
   end
 
   def display_wallet
@@ -135,8 +135,7 @@ class Adventure < ActiveRecord::Base
 
   def random_event
     #num = rand(1..10)
-    #num = @count
-    num = 0
+    num = @count
     case num
     when 4
       lost_wallet
@@ -214,6 +213,7 @@ class Adventure < ActiveRecord::Base
       puts " 1 - Give him $1.00".cyan
       puts " 2 - Ignore him".cyan
       puts " 3 - Give him $5.00".cyan
+      puts " 4 - Homeless Roulette".black
       puts "------------------------------------------------"
       input = gets.chomp
       case input.downcase
