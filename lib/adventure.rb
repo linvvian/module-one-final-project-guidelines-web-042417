@@ -83,7 +83,7 @@ class Adventure < ActiveRecord::Base
       prompt_give_tip
       choose_restaurant_message
       gets_option_choice
-    elsif input.to_i == 0 || input.to_i > 3 && input.to_i < 0
+    elsif input.to_i == 0 || input.to_i > 3 || input.to_i < 0
       not_valid_input
       choose_restaurant_message
       gets_option_choice
@@ -91,7 +91,7 @@ class Adventure < ActiveRecord::Base
       input = input.to_i
       input -= 1
       chosen = @array[input]
-      MealChoice.chosen_meal(self.id, chosen.id) #guess I can be refactored....
+      MealChoice.chosen_meal(self.id, chosen.id)
       chosen
     end
   end
@@ -128,12 +128,12 @@ class Adventure < ActiveRecord::Base
   # ^ ^ ^ This method is awesome - so well done...
 
   def random_event
-    display_wallet
     num = rand(1..10)
     case num
     when 1
       lost_wallet
     when 4
+      display_wallet
       found_money
     end
   end

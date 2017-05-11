@@ -106,7 +106,7 @@ module Speak
     puts ''
     puts @@b.asciify('          You\'re broke!')
     puts ''
-    puts@@b.asciify('                GAME OVER').light_red
+    puts@@b.asciify('               GAME OVER').light_red
   end
 
   def stolen_wallet_message
