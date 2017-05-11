@@ -119,8 +119,7 @@ class Adventure < ActiveRecord::Base
   # ^ ^ ^ This method is awesome - so well done...
 
   def random_event
-    # num = rand(1..10)
-    num = 2
+    num = rand(1..10)
     case num
     when 2
       lost_wallet
