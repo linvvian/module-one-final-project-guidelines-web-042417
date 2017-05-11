@@ -36,6 +36,28 @@ class CommandLineInterface
     end
   end
 
+  def choose_neighborhood
+    puts "Choose your neighborhood:"
+    puts "1. Financial District"
+    puts "2. East Village"
+    puts ""
+    puts "Enter 1 for Financial District or 2 for East Village"
+    input = gets.chomp
+    case input
+    when "1"
+      puts "Really? Alright, let's go."
+      round_start
+      # Adapter.
+    when "2"
+      puts "Good call. Let's get started."
+      round_start
+      # Adapter.
+    else
+      puts "Who taught you how to choose? Pick again."
+      choose_neighborhood
+    end
+  end
+
   def round_start
     if @adventure.wallet_now > 0.0
       if @round <= 3
