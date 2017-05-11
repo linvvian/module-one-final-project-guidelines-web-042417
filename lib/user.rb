@@ -59,7 +59,7 @@ class User < ActiveRecord::Base
       self.save
       puts ""
       puts "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~"
-      puts "Congratz! You set a new personal high score #{self.high_score}".light_magenta.blink
+      puts "Woo! You set a new personal high score #{self.high_score}".light_magenta.blink
       puts "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~"
     else
       puts "------------------------------------------------"

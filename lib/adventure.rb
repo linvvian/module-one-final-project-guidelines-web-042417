@@ -119,13 +119,13 @@ class Adventure < ActiveRecord::Base
     counter = 1
     puts @@d.asciify('LEADERBOARD').light_magenta.bold
     highs.each do |pair|
-      puts "      _________________________________________________________"
-      puts "                            * (#{counter}) #{User.find(pair[0]).name} #{pair[1]} *".green
+      puts "................................................"
+      puts " * (#{counter}) #{User.find(pair[0]).name} - #{pair[1]} pts *".green
       counter += 1
     end
-    puts "      _________________________________________________________"
+    puts "................................................"
+    puts ""
   end
-  # ^ ^ ^ This method is awesome - so well done...
 
   def random_event
     num = rand(1..10)
@@ -135,6 +135,8 @@ class Adventure < ActiveRecord::Base
     when 4
       display_wallet
       found_money
+    when 8
+      comes_homeless
     end
   end
 
@@ -142,33 +144,85 @@ class Adventure < ActiveRecord::Base
     stolen_wallet_message
     self.wallet_now = 0.0
   end
-###############FORMAT 543523452346345634564536
+
   def found_money
-    puts "You see the old lady in front of you drop $20.00 on the floor in the lobby."
-    puts "Do you:"
-    puts "1 Keep it"
-    puts "2 Return it"
-    puts "3 Wait to see if she notices, then if not keep it"
+    puts "------------------------------------------------"
+    puts "You see the old lady in front of you drop".yellow 
+    puts "$20.00 on the floor in the lobby.".yellow
+    puts "Do you:".yellow
+    puts "------------------------------------------------"
+    puts " 1 - Keep it".cyan
+    puts " 2 - Return it".cyan
+    puts " 3 - Wait, see if she notices, if not, keep it".cyan
+    puts "------------------------------------------------"
+    puts ''
     input = gets.chomp
     case input.to_i
     when 1
       self.wallet_now += 20.00
       self.wallet_now -= 30.00
-      puts "Nice! You got an extra 20 bucks."
-      puts "But you lost your MetroCard that had $30 in it and you need to buy another one."
+      puts "------------------------------------------------"
+      puts "Nice! You got an extra 20 bucks.".green
+      puts "But you lost your MetroCard that had $30 in it,".light_red
+      puts "you need to buy another one.".light_red
+      puts "------------------------------------------------"
     when 2
-      puts "Good for you. The old lady appreciated it. She offers you some chocolate."
+      puts "------------------------------------------------"
+      puts "Good for you. The old lady appreciated it.".yellow
+      puts "She offers you some chocolate.".green
+      puts "------------------------------------------------"
     when 3
-      puts "Really?"
-      puts "Well, lucky for you the old lady didn't notice so you got an extra $20."
-      puts "Your old buddy from college drops by and so you guys go grab some coffee."
-      puts "But you have to pay for it so -$25. (Cause you buddy only drinks the 'nice' stuff...)"
+      puts "------------------------------------------------"
+      puts "Really?".yellow
+      puts "Well, lucky for you the old lady didn't".yellow 
+      puts "notice so you got an extra $20.".green
+      puts "Your old buddy from college drops by".yellow
+      puts "and you guys go grab some coffee.".yellow
+      puts "But you have to pay for it, so -$25.".light_red
+      puts "(Your buddy only drinks the 'nice' stuff...)".yellow
+      puts "------------------------------------------------"
       self.wallet_now += 20.00
       self.wallet_now -= 25.00
     else
-      puts "INVALID INPUT. Try Again."
+      not_valid_input
       found_money
     end
   end
 
+  def comes_homeless
+    input = 0
+    puts "------------------------------------------------"
+    puts "A homeless guy approaches you, asking for money.".yellow 
+    puts "What do you do?".yellow
+    puts "------------------------------------------------"
+    while input != 3
+      puts "------------------------------------------------"
+      puts " 1 - Give him $1.00".cyan
+      puts " 2 - Ignore him".cyan
+      puts " 3 - Give him $10.00".cyan
+      puts "------------------------------------------------"
+      input = gets.chomp
+      case input.to_i
+      when 1
+        self.wallet_now -= 1.00
+        puts "------------------------------------------------"
+        puts "The homeless guy happily snatches your dollar.".light_red 
+        puts "But at the next stop light, there he is again...".yellow
+        puts "What do you do?".yellow
+        puts "------------------------------------------------"
+      when 2
+        puts "------------------------------------------------"
+        puts "You ignore the homeless guy...".yellow
+        puts "He continues to follow you...".yellow
+        puts "What do you do?".yellow
+        puts "------------------------------------------------"
+      when 3
+        self.wallet_now -= 10.00
+        puts "------------------------------------------------"
+        puts "Good for you. Homeless guy leaves.".yellow
+        puts "------------------------------------------------"
+        break
+      end
+    end
+  end
 end

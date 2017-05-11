@@ -22,11 +22,9 @@ class CommandLineInterface
       choose_adventure
     when "3"
       Adventure.show_high_scores
-      STDIN.getch
       choose_adventure
     when "4"
       MealChoice.show_top_restaurants
-      STDIN.getch
       choose_adventure
     when "5"
       goodbye_message

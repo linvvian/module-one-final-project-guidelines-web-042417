@@ -14,7 +14,6 @@ module Speak
   def greet_and_rules
     puts @@a.asciify('DON\'T LET NYC')
     puts @@a.asciify('TAKE YOUR MONEY').colorize(:light_red)
-    puts ''
     puts "#############################################"
     puts "#                                           #"
     puts "#                Welcome to:                #"
@@ -58,7 +57,6 @@ module Speak
     puts " 4 - Top 5 Restaurants".cyan
     puts " 5 - Exit".cyan
     puts "------------------------------------------------"
-    puts ''
   end
 
   def prompt_for_name
@@ -131,13 +129,13 @@ module Speak
   end
 
   def goodbye_message
-    #sleep(2)
+    sleep(2)
     puts "#########################################"
     puts "#     Sorry you don't want to play.     #" 
     puts "# Guess you have better things to do... #"
     puts "#########################################"
     puts""
-    #sleep(2)
+    sleep(2)
     puts @@h.asciify("goodbye").light_red.on_blue
     puts @@i.asciify("forever").light_red.on_blue
     puts""

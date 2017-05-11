@@ -1,4 +1,6 @@
 class MealChoice < ActiveRecord::Base
+  include Speak
+
   belongs_to :adventures
   belongs_to :restaurants
 
@@ -8,9 +10,11 @@ class MealChoice < ActiveRecord::Base
   end
 
   def self.show_top_restaurants
+    puts @@d.asciify('TOP 5 RESTUARANTS').light_magenta.bold
+    puts "................................................"
     self.all.group(:restaurant_id).order("count(restaurant_id) desc").limit(5).count.each do |k,v|
-      puts "#{Restaurant.find(k).name} #{v}"
-      puts  "======================PLACEHOLDER======================="
+      puts "* #{Restaurant.find(k).name} - #{v} Picks *".green
+      puts "................................................"
     end
   end
 end
