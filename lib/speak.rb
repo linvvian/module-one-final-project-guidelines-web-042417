@@ -109,7 +109,7 @@ module Speak
   end
 
   def stolen_wallet_message
-    @@g.asciify("SOMEONE STOLE YOUR WALLET!").light_red.blink
+    puts @@g.asciify("SOMEONE STOLE YOUR WALLET!").light_red.blink
   end
 
   def return_main_menu_message

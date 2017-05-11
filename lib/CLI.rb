@@ -48,6 +48,7 @@ class CommandLineInterface
       else
         finished_end_of_game_message
       end
+
     else
       lost_end_game_message
       @adventure.score = 0
