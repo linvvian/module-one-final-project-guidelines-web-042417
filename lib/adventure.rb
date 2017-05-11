@@ -7,6 +7,8 @@ class Adventure < ActiveRecord::Base
 
   attr_accessor :wallet_now, :start_wallet, :array
 
+  @count = 1
+
   def self.start_new_adventure(userID)
     adv = Adventure.create
     adv.start_wallet = 30.00
@@ -133,17 +135,18 @@ class Adventure < ActiveRecord::Base
   end
 
   def random_event
-    num = rand(1..10)
+    num = @count
     case num
-    when 1
+    when 3
       lost_wallet
-    when 4
+    when 1
       display_wallet
       found_money
-    when 8
+    when 2
       display_wallet
       comes_homeless
     end
+    @count += 1
   end
 
   def lost_wallet
