@@ -24,6 +24,7 @@ class CommandLineInterface
       Adventure.show_high_scores
       choose_adventure
     when "4"
+      goodbye_message
       exit
     # when "5"
       # show top 5 restaurants

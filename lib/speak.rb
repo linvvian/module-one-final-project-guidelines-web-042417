@@ -7,6 +7,8 @@ module Speak
   @@e = Artii::Base.new :font => 'doh'
   @@f = Artii::Base.new :font => 'lean'
   @@g = Artii::Base.new :font => 'epic'
+  @@h = Artii::Base.new :font => 'isometric2'
+  @@i = Artii::Base.new :font => 'isometric1'
 
 
   def greet_and_rules
@@ -41,10 +43,6 @@ module Speak
 
   def snarky_response
     puts @@g.asciify("ARE YOU HAPPY NOW?!")
-  end
-
-  def return_main_menu_message
-    "Press Enter To Return To Main Menu"
   end
 
   def main_menu
@@ -97,7 +95,7 @@ module Speak
     puts ''
     puts "If you would like to see a blurb about" 
     puts "the restuarant from a previous" 
-    puts " patron, enter \"blurb\""
+    puts "patron, enter \"blurb\""
     puts "------------------------------------------------"
   end
 
@@ -113,6 +111,13 @@ module Speak
     @@g.asciify("SOMEONE STOLE YOUR WALLET!")
   end
 
+  def return_main_menu_message
+    puts ""
+    puts "------------------------------------------------"
+    puts "HIT ANY KEY TO RETURN TO THE MAIN MENU"
+    puts "------------------------------------------------"
+  end
+
   def finished_end_of_game_message
     puts @@b.asciify('You finished the day with')
     puts ''
@@ -121,6 +126,19 @@ module Speak
     puts @@b.asciify('left in your wallet.')
     puts ''
     puts @@b.asciify('Nice job!!!')
+  end
+
+  def goodbye_message
+    sleep(2)
+    puts "#########################################"
+    puts "#     Sorry you don't want to play.     #" 
+    puts "# Guess you have better things to do... #"
+    puts "#########################################"
+    puts""
+    sleep(2)
+    puts @@h.asciify(               "GOODBYE")
+    puts @@i.asciify(               "FOREVER")
+    puts""
   end
 
 end

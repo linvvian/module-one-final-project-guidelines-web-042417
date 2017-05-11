@@ -10,10 +10,10 @@ class User < ActiveRecord::Base
 
   def self.new_user?
     u = User.new
-    puts "---------------------------------"
+    puts "------------------------------------------------"
     puts 'Is this your first adventure?'
     puts 'Please enter: Yes or No' 
-    puts "---------------------------------"
+    puts "------------------------------------------------"
     input = gets.chomp
     if input.downcase == "yes" || input.downcase == 'y'
       u.get_set_name
@@ -30,25 +30,25 @@ class User < ActiveRecord::Base
 
   def create_user
     new_player = User.where(name: self.name).first_or_create
-    puts "---------------------------------"
+    puts "------------------------------------------------"
     puts "Thank you for registering!" 
     puts "You\'re all set"
-    puts "---------------------------------"
+    puts "------------------------------------------------"
     new_player
   end
 
   def find_user
     found = User.find_by(name: self.name)
     if found == nil
-      puts "---------------------------------"
+      puts "------------------------------------------------"
       puts "Could not find your username." 
       puts "Try again or create new usernam."
-      puts "---------------------------------"
+      puts "------------------------------------------------"
       User.new_user?
     else
-      puts "---------------------------------"
+      puts "------------------------------------------------"
       puts "Found your username!"
-      puts "---------------------------------"
+      puts "------------------------------------------------"
       found
     end
   end
@@ -57,10 +57,14 @@ class User < ActiveRecord::Base
     if score > self.high_score
       self.high_score = score
       self.save
+      puts ""
+      puts "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~"
       puts "Congratz! You set a new personal high score #{self.high_score}"
-      puts "=================PLACEHOLDER==================="
+      puts "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~"
+    else #changed to else becuase no need for the same high score to be displayed twice
+      puts "------------------------------------------------"
+      puts "YOUR HIGH SCORE IS: #{self.high_score}"
+      puts "------------------------------------------------"
     end
-    puts "YOUR HIGH SCORE IS: #{self.high_score}"
-    puts "=================PLACEHOLDER==================="
   end
 end

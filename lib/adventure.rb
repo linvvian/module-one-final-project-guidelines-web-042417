@@ -16,9 +16,9 @@ class Adventure < ActiveRecord::Base
   end
 
   def display_wallet
-    puts "---------------------------------"
+    puts "------------------------------------------------"
     puts "You have $#{self.wallet_now.round(2)} in your wallet."
-    puts "---------------------------------"
+    puts "------------------------------------------------"
   end
 
   def price_calculate
@@ -44,8 +44,11 @@ class Adventure < ActiveRecord::Base
   def calculate_meal
     self.wallet_now -= price_calculate
     if self.wallet_now < 0.0
-      puts "You don't have enough money! You went over by $#{(self.wallet_now.round(2) * -1)}. Time to WASH DISHES!"
-      puts  "======================PLACEHOLDER======================="
+      puts "------------------------------------------------"
+      puts "You don't have enough money!"
+      puts "You went over by $#{(self.wallet_now.round(2) * -1)}."
+      puts "Time to WASH DISHES!"
+      puts "------------------------------------------------"
     end
   end
 
