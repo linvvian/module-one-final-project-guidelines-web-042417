@@ -120,7 +120,7 @@ class Adventure < ActiveRecord::Base
     display_wallet
     num = rand(1..10)
     case num
-    when 2
+    when 1
       lost_wallet
     when 4
       found_money
@@ -151,9 +151,9 @@ class Adventure < ActiveRecord::Base
       puts "Really?"
       puts "Well, lucky for you the old lady didn't notice so you got an extra $20."
       puts "Your old buddy from college drops by and so you guys go grab some coffee."
-      puts "But you have to pay for it so -$15."
+      puts "But you have to pay for it so -$25. (Cause you buddy only drinks the 'nice' stuff...)"
       self.wallet_now += 20.00
-      self.wallet_now -= 15.00
+      self.wallet_now -= 25.00
     else
       puts "INVALID INPUT. Try Again."
       found_money
