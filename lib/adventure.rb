@@ -45,10 +45,8 @@ class Adventure < ActiveRecord::Base
     self.wallet_now -= price_calculate
     if self.wallet_now < 0.0
       puts "You don't have enough money! You went over by $#{(self.wallet_now.round(2) * -1)}. Time to WASH DISHES!"
-<<<<<<< HEAD
       puts  "======================PLACEHOLDER======================="
-=======
->>>>>>> 97d485978df71f50f7a4c97ac7ed4133fc2a4ec7
+
     end
   end
 
@@ -71,16 +69,11 @@ class Adventure < ActiveRecord::Base
       prompt_give_tip
       choose_restaurant_message
       gets_option_choice
-    elsif input.to_i == 0 || input.to_i > 3
+    elsif input.to_i == 0 || input.to_i > 3 && input.to_i < 0
       not_valid_input
-<<<<<<< HEAD
+      choose_restaurant_message
       gets_option_choice
     else
-=======
-      choose_restaurant_message
-      gets_option_choice    
-    else 
->>>>>>> 97d485978df71f50f7a4c97ac7ed4133fc2a4ec7
       input = input.to_i
       input -= 1
       chosen = @array[input]
@@ -124,12 +117,7 @@ class Adventure < ActiveRecord::Base
   end
 
   def lost_wallet
-<<<<<<< HEAD
-    puts "Oh no! You lost your wallet!"
-    puts  "======================PLACEHOLDER======================="
-=======
     stolen_wallet_message
->>>>>>> 97d485978df71f50f7a4c97ac7ed4133fc2a4ec7
     self.wallet_now = 0.0
   end
 end

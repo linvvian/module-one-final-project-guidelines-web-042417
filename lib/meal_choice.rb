@@ -6,4 +6,11 @@ class MealChoice < ActiveRecord::Base
     m = MealChoice.create(adventure_id: adv_id, restaurant_id: rest_id)
     m
   end
+
+  def self.show_top_restaurants
+    self.all.group(:restaurant_id).order("count(restaurant_id) desc").limit(5).count.each do |k,v|
+      puts "#{Restaurant.find(k).name} #{v}"
+      puts  "======================PLACEHOLDER======================="
+    end
+  end
 end

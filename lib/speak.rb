@@ -94,7 +94,7 @@ module Speak
     puts "Enter the number that corresponds to"
     puts "the restaurant where you would like to eat."
     puts ''
-    puts "If you would like to blurb about the restuarant" 
+    puts "If you would like to blurb about the restuarant"
     puts "from a previous patron enter \"blurb\""
     puts "------------------------------------------------"
   end

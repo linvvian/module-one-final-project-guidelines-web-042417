@@ -22,10 +22,12 @@ class CommandLineInterface
       choose_adventure
     when "3"
       Adventure.show_high_scores
+      gets.chomp
+      choose_adventure
     when "4"
+      MealChoice.show_top_restaurants
+    when "5"
       exit
-    # when "5"
-      # show top 5 restaurants
     else
       not_valid_input
       choose_adventure
@@ -46,12 +48,12 @@ class CommandLineInterface
         round_start
       else
         finished_end_of_game_message
+        @adventure.user.set_high_score?(@adventure.score_calculator)
       end
     else
       lost_end_game_message
       @adventure.score = 0
     end
-    @adventure.user.set_high_score?(@adventure.score_calculator)
     @adventure.save
     return_main_menu_message
     STDIN.getch
