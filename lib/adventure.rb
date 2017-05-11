@@ -5,10 +5,11 @@ class Adventure < ActiveRecord::Base
   has_many :meal_choices
   has_many :restaurants, through: :meal_choices
 
-  attr_accessor :wallet_now, :start_wallet, :array
+  attr_accessor :wallet_now, :start_wallet, :array, :count
 
   def self.start_new_adventure(userID)
     adv = Adventure.create
+    adv.count = 0
     adv.start_wallet = 30.00
     adv.wallet_now = 30.00
     adv.array = []
@@ -134,6 +135,7 @@ class Adventure < ActiveRecord::Base
 
   def random_event
     num = rand(1..6)
+    #num = @count
     case num
     when 3
       lost_wallet
@@ -144,6 +146,7 @@ class Adventure < ActiveRecord::Base
       display_wallet
       comes_homeless
     end
+    #@count += 1
   end
 
   def lost_wallet
