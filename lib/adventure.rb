@@ -134,18 +134,21 @@ class Adventure < ActiveRecord::Base
   end
 
   def random_event
-    #num = rand(1..6)
-    num = 2
+    #num = rand(1..10)
     #num = @count
+    num = 0
     case num
-    when 3
+    when 4
       lost_wallet
     when 1
       display_wallet
       found_money
-    when 2
+    when 3
       display_wallet
       comes_homeless
+    when 2
+      display_wallet
+      tourist_encounter
     end
     #@count += 1
   end
@@ -283,4 +286,46 @@ class Adventure < ActiveRecord::Base
       counter -= 1
     end
   end
+
+  def tourist_encounter
+      puts "------------------------------------------------"
+      puts "A tourist asks for directions to Times Square.".yellow
+      puts "Do you:".yellow
+      puts "------------------------------------------------"
+      puts " 1 - Give him instructions on how to get there".cyan
+      puts " 2 - Lie to him and tell him you don't know".cyan
+      puts " 3 - Deliberately mislead him to Jersey".cyan
+      puts "------------------------------------------------"
+      puts ''
+      input = gets.chomp
+      case input.to_i
+      when 1
+        puts "------------------------------------------------"
+        puts "How nice of you! He's walks off happily.".yellow
+        puts "On your way to the restaurant you find a crisp".green
+        puts "5 dollar bill on the ground. Score!".green
+        puts "------------------------------------------------"
+        self.wallet_now += 5.00
+      when 2
+        puts "------------------------------------------------"
+        puts "Nice. Time is money, and you can't be bothered.".yellow
+        puts "Wait, where's your wallet????".light_red
+        puts "That so-called tourist scammed you!".light_red
+        puts "------------------------------------------------"
+        lost_wallet
+      when 3
+        puts "------------------------------------------------"
+        puts "How cruel of you. All he wanted was to see the".yellow
+        puts "neon billboards, sketchy Elmos and maybe".yellow
+        puts "grab an overpriced meal at Bubba Gump Shrimp".yellow
+        puts "Company.".yellow
+        puts "Hmmm....actually he's better off in New Jersey.".yellow
+        puts "Nice job! Have a penny.".green
+        puts "------------------------------------------------"
+        self.wallet_now += 0.01
+      else
+        not_valid_input
+        tourist_encounter
+      end
+    end
 end
