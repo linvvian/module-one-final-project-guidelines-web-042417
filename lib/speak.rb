@@ -14,24 +14,24 @@ module Speak
   def greet_and_rules
     puts @@a.asciify('DON\'T LET NYC')
     puts @@a.asciify('TAKE YOUR MONEY').colorize(:light_red)
-    puts "#############################################"
-    puts "#                                           #"
-    puts "#                Welcome to:                #"
-    puts "#                                           #"
-    puts "#    \"DON\'T LET NYC TAKE YOUR MONEY\"        #"
-    puts "#                                           #"
-    puts "#   We all know NYC costs way too much. It  #"
-    puts "#  seems like every meal you eat also takes #"
-    puts "#         takes a bite out of you.          #"
-    puts "#                                           #"
-    puts "#      Here is a game designed to help      #"
-    puts "#      you adjust to eating in the many     #"
-    puts "#       neighborhoods throughout NYC.       #"
-    puts "#                                           #"
-    puts "#   Try to make it through your week and    #"
-    puts "#   still have money left in your wallet.   #"
-    puts "#                                           #"
-    puts "#############################################"
+    puts "################################################"
+    puts "#                                              #"
+    puts "#                  Welcome to:                 #"
+    puts "#                                              #"
+    puts "#      \"DON\'T LET NYC TAKE YOUR MONEY\"         #"
+    puts "#                                              #"
+    puts "#    We all know NYC costs way too much. It    #"
+    puts "#   seems like every meal you eat also takes   #"
+    puts "#          takes a bite out of you.            #"
+    puts "#                                              #"
+    puts "#    Try to make it through your day and       #"
+    puts "#    still have money left in your wallet.     #"
+    puts "#                                              #"
+    puts "#        And don't forget to keep your         #"
+    puts "#          eyes peeled. But remember           #"
+    puts "#                SHIT HAPPENS!                 #"
+    puts "#                                              #"
+    puts "################################################"
     puts ""
     puts "                  GOOD LUCK!                 ".light_magenta.bold.blink
     puts ""
@@ -93,9 +93,9 @@ module Speak
     puts "Enter the number that corresponds to".yellow
     puts "the restaurant where you would like to eat.".yellow
     puts ''
-    puts "If you would like to see a blurb about".yellow 
-    puts "the restuarant from a previous" .yellow
-    puts "patron, enter \"blurb\"".yellow
+    puts "If you would like to see a blurb about".yellow
+    puts "the restuarant from a previous patron," .yellow
+    puts "enter \"blurb\"".blue.blink
     puts "------------------------------------------------"
   end
 
@@ -131,7 +131,7 @@ module Speak
   def goodbye_message
     sleep(2)
     puts "#########################################"
-    puts "#     Sorry you don't want to play.     #" 
+    puts "#     Sorry you don't want to play.     #"
     puts "# Guess you have better things to do... #"
     puts "#########################################"
     puts""
@@ -141,7 +141,3 @@ module Speak
     puts""
   end
 end
-
-
-
-

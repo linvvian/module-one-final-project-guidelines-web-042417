@@ -9,7 +9,7 @@ class CommandLineInterface
   def choose_adventure
     main_menu
     input = gets.chomp
-    case input
+    case input.downcase
     when "1"
       player = User.new_user?
       get_name(player.name)
@@ -26,7 +26,7 @@ class CommandLineInterface
     when "4"
       MealChoice.show_top_restaurants
       choose_adventure
-    when "5"
+    when "5", "exit", "quit"
       goodbye_message
       exit
     else

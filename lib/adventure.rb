@@ -7,8 +7,6 @@ class Adventure < ActiveRecord::Base
 
   attr_accessor :wallet_now, :start_wallet, :array
 
-  @count = 1
-
   def self.start_new_adventure(userID)
     adv = Adventure.create
     adv.start_wallet = 30.00
@@ -74,12 +72,12 @@ class Adventure < ActiveRecord::Base
   def give_options
     for i in 1..3
       option = Restaurant.random_restaurant
-      puts '<><><><><><><><><><><><><><><><><><><><><><><>'
+      puts '<><><><><><><><><><><><><><><><><><><><><><><><>'
       puts "- #{i}".cyan
       puts "- Name: #{option.name}".cyan
       puts "- Category: #{option.category}".cyan
       puts "- Rating: #{option.rating}".cyan
-      puts '<><><><><><><><><><><><><><><><><><><><><><><>'
+      puts '<><><><><><><><><><><><><><><><><><><><><><><><>'
       @array << option
     end
   end
@@ -135,7 +133,7 @@ class Adventure < ActiveRecord::Base
   end
 
   def random_event
-    num = @count
+    num = rand(1..6)
     case num
     when 3
       lost_wallet
@@ -146,7 +144,6 @@ class Adventure < ActiveRecord::Base
       display_wallet
       comes_homeless
     end
-    @count += 1
   end
 
   def lost_wallet
@@ -208,7 +205,7 @@ class Adventure < ActiveRecord::Base
       puts "------------------------------------------------"
       puts " 1 - Give him $1.00".cyan
       puts " 2 - Ignore him".cyan
-      puts " 3 - Give him $10.00".cyan
+      puts " 3 - Give him $5.00".cyan
       puts "------------------------------------------------"
       input = gets.chomp
       case input.to_i
@@ -219,6 +216,7 @@ class Adventure < ActiveRecord::Base
         puts "But at the next stop light, there he is again...".yellow
         puts "What do you do?".yellow
         puts "------------------------------------------------"
+        display_wallet
       when 2
         puts "------------------------------------------------"
         puts "You ignore the homeless guy...".yellow
@@ -226,17 +224,21 @@ class Adventure < ActiveRecord::Base
         puts "What do you do?".yellow
         puts "------------------------------------------------"
       when 3
-        self.wallet_now -= 10.00
+        self.wallet_now -= 5.00
         puts "------------------------------------------------"
         puts "Good for you. Homeless guy leaves.".yellow
         puts "------------------------------------------------"
         break
+      else
+        not_valid_input
       end
     end
-    puts ""
-    puts "------------------------------------------------"
-    puts "You ran out of money... Homeless guy leaves.".red.blink
-    puts "------------------------------------------------"
-    puts ""
+    if self.wallet_now <= 0.0
+      puts ""
+      puts "------------------------------------------------"
+      puts "You ran out of money... Homeless guy leaves.".red.blink
+      puts "------------------------------------------------"
+      puts ""
+    end
   end
 end
