@@ -16,12 +16,13 @@ class CommandLineInterface
       get_name(player.name)
       @adventure = Adventure.start_new_adventure(player.id)
       @round = 1
-      round_start
+      round_start # pass adventure in as arg and use instead of @adventure
     when "2"
       snarky_response
       choose_adventure
     when "3"
       Adventure.show_high_scores
+      choose_adventure
     when "4"
       exit
     # when "5"
@@ -36,9 +37,8 @@ class CommandLineInterface
     if @adventure.wallet_now > 0.0 #should be done in adventure class
       if @round <= 3
         @adventure.display_wallet
-        options_for_meals(@round) # just added
+        options_for_meals(@round)
         @adventure.give_options
-        #@adventure.prompt_give_tip
         @adventure.calculate_meal
         @adventure.reset_choice_array
         @round += 1

@@ -3,6 +3,7 @@ module Speak
   @@a = Artii::Base.new :font => 'univers'
   @@b = Artii::Base.new :font => 'banner3'
   @@c = Artii::Base.new :font => 'big'
+  @@d = Artii::Base.new :font => 'slant'
   @@e = Artii::Base.new :font => 'doh'
   @@f = Artii::Base.new :font => 'lean'
   @@g = Artii::Base.new :font => 'epic'
@@ -47,29 +48,29 @@ module Speak
   end
 
   def main_menu
-    puts ''
-    puts "---------------------------------"
+    puts "------------------------------------------------"
     puts " Please Pick A Number"
     puts " And Press Return"
     puts " (Or Don't - It's Your Life...)"
-    puts "---------------------------------"
-    puts " 1 - Start your adventure "
-    puts " 2 - I do nothing         "
-    puts " 3 - Exit                 "
-    puts "---------------------------------"
+    puts "------------------------------------------------"
+    puts " 1 - Start your adventure"
+    puts " 2 - I do nothing"
+    puts " 3 - Leaderboard"
+    puts " 4 - Exit"
+    puts "------------------------------------------------"
     puts ''
   end
 
   def prompt_for_name
-    puts "---------------------------------"
+    puts "------------------------------------------------"
     puts "Please enter your name:"
-    puts "---------------------------------"
+    puts "------------------------------------------------"
   end
 
   def choose_restaurant_message
-    puts "---------------------------------"
+    puts "------------------------------------------------"
     puts "Please choose a restaurant:"
-    puts "---------------------------------"
+    puts "------------------------------------------------"
   end
 
   def get_name(user_name)
@@ -82,9 +83,9 @@ module Speak
     case round
     when 1
       meal_time = "Breakfast"
-    when 1
+    when 2
       meal_time = "Lunch"
-    when 1
+    when 3
       meal_time = "Dinner"
     end
     puts "------------------------------------------------"
@@ -94,17 +95,18 @@ module Speak
     puts "Enter the number that corresponds to"
     puts "the restaurant where you would like to eat."
     puts ''
-    puts "If you would like to blurb about the restuarant" 
-    puts "from a previous patron enter \"blurb\""
+    puts "If you would like to see a blurb about" 
+    puts "the restuarant from a previous" 
+    puts " patron, enter \"blurb\""
     puts "------------------------------------------------"
   end
 
   def lost_end_game_message
-    puts @@b.asciify('Welcome to New York.')
+    puts @@b.asciify('  Welcome to New York.')
     puts ''
-    puts @@b.asciify('You\'re broke!')
+    puts @@b.asciify('          You\'re broke!')
     puts ''
-    puts@@b.asciify('        GAME OVER')
+    puts@@b.asciify('              GAME OVER')
   end
 
   def stolen_wallet_message

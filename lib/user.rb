@@ -15,10 +15,10 @@ class User < ActiveRecord::Base
     puts 'Please enter: Yes or No' 
     puts "---------------------------------"
     input = gets.chomp
-    if input.downcase == "yes"
+    if input.downcase == "yes" || input.downcase == 'y'
       u.get_set_name
       u = u.create_user
-    elsif input.downcase == "no"
+    elsif input.downcase == "no" || input.downcase == 'n'
       u.get_set_name
       u = u.find_user
     else

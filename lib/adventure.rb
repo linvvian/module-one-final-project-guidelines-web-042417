@@ -45,22 +45,19 @@ class Adventure < ActiveRecord::Base
     self.wallet_now -= price_calculate
     if self.wallet_now < 0.0
       puts "You don't have enough money! You went over by $#{(self.wallet_now.round(2) * -1)}. Time to WASH DISHES!"
-<<<<<<< HEAD
       puts  "======================PLACEHOLDER======================="
-=======
->>>>>>> 97d485978df71f50f7a4c97ac7ed4133fc2a4ec7
     end
   end
 
   def give_options
     for i in 1..3
       option = Restaurant.random_restaurant
-      puts '<><><><><><><><><><><><><><><><><><><><><>'
-      puts "- #{i}                                    "
-      puts "- Name: #{option.name}                    "
-      puts "- Category: #{option.category}            "
-      puts "- Rating: #{option.rating}                "
-      puts '<><><><><><><><><><><><><><><><><><><><><>'
+      puts '<><><><><><><><><><><><><><><><><><><><><><><>'
+      puts "- #{i}"
+      puts "- Name: #{option.name}"
+      puts "- Category: #{option.category}"
+      puts "- Rating: #{option.rating}"
+      puts '<><><><><><><><><><><><><><><><><><><><><><><>'
       @array << option
     end
   end
@@ -73,18 +70,14 @@ class Adventure < ActiveRecord::Base
       gets_option_choice
     elsif input.to_i == 0 || input.to_i > 3
       not_valid_input
-<<<<<<< HEAD
-      gets_option_choice
-    else
-=======
       choose_restaurant_message
       gets_option_choice    
     else 
->>>>>>> 97d485978df71f50f7a4c97ac7ed4133fc2a4ec7
+
       input = input.to_i
       input -= 1
       chosen = @array[input]
-      MealChoice.chosen_meal(self.id, chosen.id)
+      MealChoice.chosen_meal(self.id, chosen.id) #guess I can be refactored....
       chosen
     end
   end
@@ -109,11 +102,16 @@ class Adventure < ActiveRecord::Base
 
   def self.show_high_scores
     highs = self.all.order(score: :desc).limit(5).pluck(:user_id, :score)
+    counter = 1
+    puts @@d.asciify('LEADERBOARD')
     highs.each do |pair|
-      puts "#{User.find(pair[0]).name} #{pair[1]}"
-      puts  "======================PLACEHOLDER======================="
+      puts "      _________________________________________________________"
+      puts "                            * (#{counter}) #{User.find(pair[0]).name} #{pair[1]} *"
+      counter += 1
     end
+    puts "      _________________________________________________________"
   end
+  # ^ ^ ^ This method is awesome - so well done...
 
   def random_event
     num = rand(1..10)
@@ -124,12 +122,7 @@ class Adventure < ActiveRecord::Base
   end
 
   def lost_wallet
-<<<<<<< HEAD
-    puts "Oh no! You lost your wallet!"
-    puts  "======================PLACEHOLDER======================="
-=======
     stolen_wallet_message
->>>>>>> 97d485978df71f50f7a4c97ac7ed4133fc2a4ec7
     self.wallet_now = 0.0
   end
 end
