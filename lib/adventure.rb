@@ -134,7 +134,8 @@ class Adventure < ActiveRecord::Base
   end
 
   def random_event
-    num = rand(1..6)
+    #num = rand(1..6)
+    num = 2
     #num = @count
     case num
     when 3
@@ -199,38 +200,47 @@ class Adventure < ActiveRecord::Base
   end
 
   def comes_homeless
-    input = 0
+    money_given = 0
+    counter = 6
     puts "------------------------------------------------"
     puts "A homeless guy approaches you, asking for money.".yellow
     puts "What do you do?".yellow
     puts "------------------------------------------------"
-    while self.wallet_now > 0.0
+    while self.wallet_now > 0.0 || money_given > 10.00
       puts "------------------------------------------------"
       puts " 1 - Give him $1.00".cyan
       puts " 2 - Ignore him".cyan
       puts " 3 - Give him $5.00".cyan
       puts "------------------------------------------------"
       input = gets.chomp
-      case input.to_i
-      when 1
+      case input.downcase
+      when "1"
         self.wallet_now -= 1.00
         puts "------------------------------------------------"
         puts "The homeless guy happily snatches your dollar.".light_red
         puts "But at the next stop light, there he is again...".yellow
         puts "What do you do?".yellow
         puts "------------------------------------------------"
+        money_given += 1
         display_wallet
-      when 2
+      when "2"
         puts "------------------------------------------------"
         puts "You ignore the homeless guy...".yellow
         puts "He continues to follow you...".yellow
         puts "What do you do?".yellow
         puts "------------------------------------------------"
-      when 3
+      when "3"
         self.wallet_now -= 5.00
         puts "------------------------------------------------"
         puts "Good for you. Homeless guy leaves.".yellow
         puts "------------------------------------------------"
+        break
+      when "roulette", "r"
+        puts "DING DING DING"
+        puts "Prepare for battle!!!!"
+        puts "You face off the homeless man in a game of Russian Roulette"
+        puts "You go first"
+        russian_roulette(counter, money_given)
         break
       else
         not_valid_input
@@ -242,6 +252,35 @@ class Adventure < ActiveRecord::Base
       puts "You ran out of money... Homeless guy leaves.".red.blink
       puts "------------------------------------------------"
       puts ""
+    end
+  end
+
+  def russian_roulette(counter, money)
+    while counter != 1
+      puts "Your turn"
+      gets.chomp
+      x = rand(1..counter)
+      if x == 1
+        puts "You died. He takes all your $$"
+        @wallet_now = 0.0
+        break
+      end
+      puts "*CLICK*"
+      counter -= 1
+      sleep(1)
+      puts "His turn"
+      sleep(1)
+      x = rand(1..counter)
+      if x == 1
+        pickedUP = rand(5.0..15.0)
+        pickedUP = pickedUP.round(2)
+        puts "HE DIES"
+        puts "Lucky you. You got your money back: $#{money} and you got from the homeless guy $#{pickedUP}."
+        @wallet_now = @wallet_now + money + pickedUP
+        break
+      end
+      puts "*CLICK*"
+      counter -= 1
     end
   end
 end
