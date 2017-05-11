@@ -21,7 +21,7 @@ class Adventure < ActiveRecord::Base
     adv.give_options
     adv.calculate_meal
     adv.reset_choice_array
-    adv.random_event
+    adv.random_event if adv.wallet_now > 0.0 && round != 3
   end
 
   def display_wallet
@@ -55,7 +55,6 @@ class Adventure < ActiveRecord::Base
     if self.wallet_now < 0.0
       puts "You don't have enough money! You went over by $#{(self.wallet_now.round(2) * -1)}. Time to WASH DISHES!"
       puts  "======================PLACEHOLDER======================="
-      return
     end
   end
 
@@ -156,7 +155,7 @@ class Adventure < ActiveRecord::Base
       self.wallet_now += 20.00
       self.wallet_now -= 15.00
     else
-      puts "INVALID INPUT"
+      puts "INVALID INPUT. Try Again."
       found_money
     end
   end
