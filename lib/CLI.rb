@@ -26,6 +26,8 @@ class CommandLineInterface
       choose_adventure
     when "4"
       MealChoice.show_top_restaurants
+      gets.chomp
+      choose_adventure
     when "5"
       exit
     else
