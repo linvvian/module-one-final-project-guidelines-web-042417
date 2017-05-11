@@ -45,7 +45,6 @@ class CommandLineInterface
         finished_end_of_game_message
         @adventure.user.set_high_score?(@adventure.score_calculator)
       end
-
     else
       lost_end_game_message
       @adventure.score = 0

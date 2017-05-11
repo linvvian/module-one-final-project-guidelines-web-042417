@@ -61,6 +61,11 @@ class Adventure < ActiveRecord::Base
       puts "You went over by $#{(self.wallet_now.round(2) * -1)}.".green
       puts "Time to WASH DISHES!".light_red
       puts "------------------------------------------------"
+    elsif self.wallet_now == 0.0
+      puts "------------------------------------------------"
+      puts "You just blew all your money.".light_red.blink
+      puts "Good luck getting through the rest of you day".light_red.blink
+      puts "------------------------------------------------"
     end
   end
 
@@ -136,6 +141,7 @@ class Adventure < ActiveRecord::Base
       display_wallet
       found_money
     when 8
+      display_wallet
       comes_homeless
     end
   end
@@ -147,7 +153,7 @@ class Adventure < ActiveRecord::Base
 
   def found_money
     puts "------------------------------------------------"
-    puts "You see the old lady in front of you drop".yellow 
+    puts "You see the old lady in front of you drop".yellow
     puts "$20.00 on the floor in the lobby.".yellow
     puts "Do you:".yellow
     puts "------------------------------------------------"
@@ -174,7 +180,7 @@ class Adventure < ActiveRecord::Base
     when 3
       puts "------------------------------------------------"
       puts "Really?".yellow
-      puts "Well, lucky for you the old lady didn't".yellow 
+      puts "Well, lucky for you the old lady didn't".yellow
       puts "notice so you got an extra $20.".green
       puts "Your old buddy from college drops by".yellow
       puts "and you guys go grab some coffee.".yellow
@@ -192,10 +198,10 @@ class Adventure < ActiveRecord::Base
   def comes_homeless
     input = 0
     puts "------------------------------------------------"
-    puts "A homeless guy approaches you, asking for money.".yellow 
+    puts "A homeless guy approaches you, asking for money.".yellow
     puts "What do you do?".yellow
     puts "------------------------------------------------"
-    while input != 3
+    while self.wallet_now > 0.0
       puts "------------------------------------------------"
       puts " 1 - Give him $1.00".cyan
       puts " 2 - Ignore him".cyan
@@ -206,7 +212,7 @@ class Adventure < ActiveRecord::Base
       when 1
         self.wallet_now -= 1.00
         puts "------------------------------------------------"
-        puts "The homeless guy happily snatches your dollar.".light_red 
+        puts "The homeless guy happily snatches your dollar.".light_red
         puts "But at the next stop light, there he is again...".yellow
         puts "What do you do?".yellow
         puts "------------------------------------------------"
@@ -224,5 +230,10 @@ class Adventure < ActiveRecord::Base
         break
       end
     end
+    puts ""
+    puts "------------------------------------------------"
+    puts "You ran out of money... Homeless guy leaves.".red.blink
+    puts "------------------------------------------------"
+    puts ""
   end
 end
