@@ -13,6 +13,7 @@ class CommandLineInterface
     when "1"
       player = User.new_user?
       get_name(player.name)
+      Neighborhood.choose_neighborhood
       @adventure = Adventure.start_new_adventure(player.id)
       @round = 1
       round_start
@@ -33,28 +34,6 @@ class CommandLineInterface
     else
       not_valid_input
       choose_adventure
-    end
-  end
-
-  def choose_neighborhood
-    puts "Choose your neighborhood:"
-    puts "1. Financial District"
-    puts "2. East Village"
-    puts ""
-    puts "Enter 1 for Financial District or 2 for East Village"
-    input = gets.chomp
-    case input
-    when "1"
-      puts "Really? Alright, let's go."
-      round_start
-      # Adapter.
-    when "2"
-      puts "Good call. Let's get started."
-      round_start
-      # Adapter.
-    else
-      puts "Who taught you how to choose? Pick again."
-      choose_neighborhood
     end
   end
 

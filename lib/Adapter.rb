@@ -12,14 +12,9 @@ class Adapter
     "#{URL}40.723298%2C%20-73.988505&section=food&limit=50#/"
   end
 
-  def self.gets_results(neighborhood)
-    response = open(url).read
+  def self.gets_results
+    response = open(Neighborhood.choose_neighborhood).read
     JSON.parse(response)
-  end
-
-  def set_neighborhood(x)
-    case x
-
   end
 
 end

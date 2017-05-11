@@ -35,7 +35,8 @@ class Restaurant < ActiveRecord::Base
   end
 
   def self.random_restaurant
-    x = rand(1..50)
-    self.find(x)
+    # x = rand(1..50)
+    # self.find(x)
+    self.all.sample
   end
 end
