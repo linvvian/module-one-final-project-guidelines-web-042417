@@ -55,7 +55,7 @@ class Adventure < ActiveRecord::Base
     if self.wallet_now < 0.0
       puts "You don't have enough money! You went over by $#{(self.wallet_now.round(2) * -1)}. Time to WASH DISHES!"
       puts  "======================PLACEHOLDER======================="
-
+      return
     end
   end
 
@@ -118,10 +118,13 @@ class Adventure < ActiveRecord::Base
   end
 
   def random_event
+    display_wallet
     num = rand(1..10)
     case num
     when 2
       lost_wallet
+    when 4
+      found_money
     end
   end
 
@@ -129,4 +132,33 @@ class Adventure < ActiveRecord::Base
     stolen_wallet_message
     self.wallet_now = 0.0
   end
+
+  def found_money
+    puts "You see the old lady in front of you drop $20.00 on the floor in the lobby."
+    puts "Do you:"
+    puts "1 Keep it"
+    puts "2 Return it"
+    puts "3 Wait to see if she notices, then if not keep it"
+    input = gets.chomp
+    case input.to_i
+    when 1
+      self.wallet_now += 20.00
+      self.wallet_now -= 30.00
+      puts "Nice! You got an extra 20 bucks."
+      puts "But you lost your MetroCard that had $30 in it and you need to buy another one."
+    when 2
+      puts "Good for you. The old lady appreciated it. She offers you some chocolate."
+    when 3
+      puts "Really?"
+      puts "Well, lucky for you the old lady didn't notice so you got an extra $20."
+      puts "Your old buddy from college drops by and so you guys go grab some coffee."
+      puts "But you have to pay for it so -$15."
+      self.wallet_now += 20.00
+      self.wallet_now -= 15.00
+    else
+      puts "INVALID INPUT"
+      found_money
+    end
+  end
+
 end
