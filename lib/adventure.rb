@@ -134,8 +134,7 @@ class Adventure < ActiveRecord::Base
   end
 
   def random_event
-    #num = rand(1..10)
-    num = @count
+    num = rand(1..10)
     case num
     when 4
       lost_wallet
@@ -238,7 +237,7 @@ class Adventure < ActiveRecord::Base
         puts "Good for you. Homeless guy leaves.".yellow
         puts "------------------------------------------------"
         break
-      when "roulette", "r"
+      when "roulette", "r", "4"
         puts "DING DING DING"
         puts "Prepare for battle!!!!"
         puts "You face off the homeless man in a game of Russian Roulette"
