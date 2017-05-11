@@ -1,7 +1,6 @@
 class CommandLineInterface
   include Speak
 
-  #greet the user
   def greet
     greet_and_rules
     choose_adventure
@@ -29,6 +28,7 @@ class CommandLineInterface
       STDIN.getch
       choose_adventure
     when "5"
+      goodbye_message
       exit
     else
       not_valid_input
@@ -37,16 +37,8 @@ class CommandLineInterface
   end
 
   def round_start
-    if @adventure.wallet_now > 0.0 #should be done in adventure class
+    if @adventure.wallet_now > 0.0
       if @round <= 3
-        # @adventure.display_wallet
-        # options_for_meals(@round) # just added
-        # @adventure.give_options
-        # #@adventure.prompt_give_tip
-        # @adventure.calculate_meal
-        # @adventure.reset_choice_array
-        # @round += 1
-        # @adventure.random_event
         Adventure.begin_round(@adventure,@round)
         @round += 1
         round_start
@@ -54,6 +46,7 @@ class CommandLineInterface
         finished_end_of_game_message
         @adventure.user.set_high_score?(@adventure.score_calculator)
       end
+
     else
       lost_end_game_message
       @adventure.score = 0

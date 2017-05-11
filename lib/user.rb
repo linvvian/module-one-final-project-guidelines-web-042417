@@ -10,15 +10,15 @@ class User < ActiveRecord::Base
 
   def self.new_user?
     u = User.new
-    puts "---------------------------------"
-    puts 'Is this your first adventure?'
-    puts 'Please enter: Yes or No'
-    puts "---------------------------------"
+    puts "------------------------------------------------"
+    puts 'Is this your first adventure?'.yellow
+    puts 'Please enter: Yes or No'.cyan
+    puts "------------------------------------------------"
     input = gets.chomp
-    if input.downcase == "yes" || input.downcase == "y"
+    if input.downcase == "yes" || input.downcase == 'y'
       u.get_set_name
       u = u.create_user
-    elsif input.downcase == "no" || input.downcase == "no"
+    elsif input.downcase == "no" || input.downcase == 'n'
       u.get_set_name
       u = u.find_user
     else
@@ -30,25 +30,25 @@ class User < ActiveRecord::Base
 
   def create_user
     new_player = User.where(name: self.name).first_or_create
-    puts "---------------------------------"
-    puts "Thank you for registering!"
-    puts "You\'re all set"
-    puts "---------------------------------"
+    puts "------------------------------------------------"
+    puts "Thank you for registering!".yellow
+    puts "You\'re all set".yellow
+    puts "------------------------------------------------"
     new_player
   end
 
   def find_user
     found = User.find_by(name: self.name)
     if found == nil
-      puts "---------------------------------"
-      puts "Could not find your username."
-      puts "Try again or create new usernam."
-      puts "---------------------------------"
+      puts "------------------------------------------------"
+      puts "Could not find your username.".yellow
+      puts "Try again or create new usernam.".yellow
+      puts "------------------------------------------------"
       User.new_user?
     else
-      puts "---------------------------------"
-      puts "Found your username!"
-      puts "---------------------------------"
+      puts "------------------------------------------------"
+      puts "Found your username!".light_magenta.blink
+      puts "------------------------------------------------"
       found
     end
   end
@@ -57,10 +57,14 @@ class User < ActiveRecord::Base
     if score > self.high_score
       self.high_score = score
       self.save
-      puts "Congratz! You set a new personal high score #{self.high_score}"
-      puts "=================PLACEHOLDER==================="
+      puts ""
+      puts "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~"
+      puts "Congratz! You set a new personal high score #{self.high_score}".light_magenta.blink
+      puts "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~"
+    else
+      puts "------------------------------------------------"
+      puts "YOUR HIGH SCORE IS: #{self.high_score}".yellow
+      puts "------------------------------------------------"
     end
-    puts "YOUR HIGH SCORE IS: #{self.high_score}"
-    puts "=================PLACEHOLDER==================="
   end
 end

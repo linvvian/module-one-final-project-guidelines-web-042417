@@ -38,5 +38,4 @@ class Restaurant < ActiveRecord::Base
     x = rand(1..50)
     self.find(x)
   end
-
 end

@@ -15,6 +15,7 @@ GEM
     arel (7.1.4)
     artii (2.1.2)
     coderay (1.1.1)
+    colorize (0.8.1)
     concurrent-ruby (1.0.5)
     i18n (0.8.1)
     json (2.1.0)
@@ -47,6 +48,7 @@ PLATFORMS
 
 DEPENDENCIES
   artii
+  colorize
   json
   pry
   require_all
