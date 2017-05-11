@@ -16,9 +16,12 @@ class Adventure < ActiveRecord::Base
   end
 
   def display_wallet
-    puts "------------------------------------------------"
-    puts "You have $#{self.wallet_now.round(2)} in your wallet."
-    puts "------------------------------------------------"
+    puts "_________________________________________".green
+    puts "|\\__________________^__________________/|".green
+    puts "| ----------------  ^  ---------------- |".green
+    puts "| You have $#{self.wallet_now.round}      ^    in your wallet |".green
+    puts "| ----------------  ^  ---------------- |".green
+    puts "|___________________^___________________|".green
   end
 
   def price_calculate
@@ -45,9 +48,9 @@ class Adventure < ActiveRecord::Base
     self.wallet_now -= price_calculate
     if self.wallet_now < 0.0
       puts "------------------------------------------------"
-      puts "You don't have enough money!"
-      puts "You went over by $#{(self.wallet_now.round(2) * -1)}."
-      puts "Time to WASH DISHES!"
+      puts "You don't have enough money!".light_red
+      puts "You went over by $#{(self.wallet_now.round(2) * -1)}.".green
+      puts "Time to WASH DISHES!".light_red
       puts "------------------------------------------------"
     end
   end
@@ -56,10 +59,10 @@ class Adventure < ActiveRecord::Base
     for i in 1..3
       option = Restaurant.random_restaurant
       puts '<><><><><><><><><><><><><><><><><><><><><><><>'
-      puts "- #{i}"
-      puts "- Name: #{option.name}"
-      puts "- Category: #{option.category}"
-      puts "- Rating: #{option.rating}"
+      puts "- #{i}".cyan
+      puts "- Name: #{option.name}".cyan
+      puts "- Category: #{option.category}".cyan
+      puts "- Rating: #{option.rating}".cyan
       puts '<><><><><><><><><><><><><><><><><><><><><><><>'
       @array << option
     end
@@ -76,7 +79,6 @@ class Adventure < ActiveRecord::Base
       choose_restaurant_message
       gets_option_choice    
     else 
-
       input = input.to_i
       input -= 1
       chosen = @array[input]
@@ -88,7 +90,7 @@ class Adventure < ActiveRecord::Base
   def prompt_give_tip
     @array.each.with_index do |rest, index|
       puts "====="
-      puts " #{index+1} - #{rest.name} - Blurb: #{rest.tips}"
+      puts "- #{index+1} - #{rest.name} - Blurb: #{rest.tips}".cyan
       puts "====="
     end
     puts ""
@@ -106,10 +108,10 @@ class Adventure < ActiveRecord::Base
   def self.show_high_scores
     highs = self.all.order(score: :desc).limit(5).pluck(:user_id, :score)
     counter = 1
-    puts @@d.asciify('LEADERBOARD')
+    puts @@d.asciify('LEADERBOARD').light_magenta.bold
     highs.each do |pair|
       puts "      _________________________________________________________"
-      puts "                            * (#{counter}) #{User.find(pair[0]).name} #{pair[1]} *"
+      puts "                            * (#{counter}) #{User.find(pair[0]).name} #{pair[1]} *".green
       counter += 1
     end
     puts "      _________________________________________________________"
