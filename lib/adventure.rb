@@ -15,6 +15,15 @@ class Adventure < ActiveRecord::Base
     adv.tap {|adv| adv.user_id = userID}
   end
 
+  def self.begin_round(adv, round)
+    adv.display_wallet
+    adv.options_for_meals(round)
+    adv.give_options
+    adv.calculate_meal
+    adv.reset_choice_array
+    adv.random_event
+  end
+
   def display_wallet
     puts "---------------------------------"
     puts "You have $#{self.wallet_now.round(2)} in your wallet."

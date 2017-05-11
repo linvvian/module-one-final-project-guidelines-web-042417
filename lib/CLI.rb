@@ -37,14 +37,16 @@ class CommandLineInterface
   def round_start
     if @adventure.wallet_now > 0.0 #should be done in adventure class
       if @round <= 3
-        @adventure.display_wallet
-        options_for_meals(@round) # just added
-        @adventure.give_options
-        #@adventure.prompt_give_tip
-        @adventure.calculate_meal
-        @adventure.reset_choice_array
+        # @adventure.display_wallet
+        # options_for_meals(@round) # just added
+        # @adventure.give_options
+        # #@adventure.prompt_give_tip
+        # @adventure.calculate_meal
+        # @adventure.reset_choice_array
+        # @round += 1
+        # @adventure.random_event
+        Adventure.begin_round(@adventure,@round)
         @round += 1
-        @adventure.random_event
         round_start
       else
         finished_end_of_game_message
