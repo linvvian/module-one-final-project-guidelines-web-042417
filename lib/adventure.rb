@@ -135,8 +135,8 @@ class Adventure < ActiveRecord::Base
   end
 
   def random_event
-    num = rand(1..10)
-    case num
+    number = rand(1..10)
+    case number
     when 4
       lost_wallet
     when 1
@@ -275,8 +275,8 @@ class Adventure < ActiveRecord::Base
     while counter != 1
       puts "Your turn".yellow
       gets.chomp
-      x = rand(1..counter)
-      if x == 1
+      chance = rand(1..counter)
+      if chance == 1
         puts "*bang*".light_red
         puts "You died. He takes all your $$".light_red
         puts ""
@@ -290,14 +290,14 @@ class Adventure < ActiveRecord::Base
       puts "His turn".yellow
       puts ""
       sleep(1.5)
-      x = rand(1..counter)
-      if x == 1
-        pickedUP = rand(5.0..15.0)
-        pickedUP = pickedUP.round(2)
+      chance = rand(1..counter)
+      if chance == 1
+        picked_up = rand(5.0..15.0)
+        picked_up = picked_up.round(2)
         puts "*bang*".light_red
         puts "HE DIES".light_red
-        puts "Lucky you. You got your money back: $#{money} and you got from the homeless guy $#{pickedUP}.".green
-        self.wallet = self.wallet + money + pickedUP
+        puts "Lucky you. You got your money back: $#{money} and you got from the homeless guy $#{picked_up}.".green
+        self.wallet = self.wallet + money + picked_up
         break
       end
       puts "*CLICK*"
