@@ -185,8 +185,8 @@ class Adventure < ActiveRecord::Base
     when 3
       puts "------------------------------------------------"
       puts "Really?".yellow
-      puts "Well, lucky for you the old lady didn't".yellow
-      puts "notice so you got an extra $20.".green
+      puts "Well, lucky for you the old lady didn't notice".yellow
+      puts "so you got an extra $20.".green
       puts "Your old buddy from college drops by".yellow
       puts "and you guys go grab some coffee.".yellow
       puts "But you have to pay for it, so -$25.".light_red
@@ -228,7 +228,9 @@ class Adventure < ActiveRecord::Base
       when "2"
         puts "------------------------------------------------"
         puts "You ignore the homeless guy...".yellow
+        sleep(1)
         puts "He continues to follow you...".yellow
+        sleep(1)
         puts "What do you do?".yellow
         puts "------------------------------------------------"
       when "3"
