@@ -135,8 +135,7 @@ class Adventure < ActiveRecord::Base
   end
 
   def random_event
-    #number = rand(1..10)
-    number = 5
+    number = rand(1..10)
     case number
     when 4
       lost_wallet
@@ -352,12 +351,32 @@ class Adventure < ActiveRecord::Base
     end
 
     def pizza_rat
-      puts "You encounter a wild Rat."
+      puts "------------------------------------------------"
+      puts "HOLY CRAP!!! WHAT IS THAT!?!".yellow
+      puts "You see a ginormus rat wearing a crown.".yellow
+      puts "It must be the NYC RAT KING!".yellow
+      puts "Do you:".yellow
+      puts "------------------------------------------------"
+      puts " 1 - Run.".cyan
+      puts " 2 - Pay tribute.".cyan
+      puts " 3 - Duel".cyan
+      puts "------------------------------------------------"
+      puts ''
       input = gets.chomp
       case input
       when "1" #run
+        puts "------------------------------------------------"
+        puts "Running is of no use".yellow
+        puts "The RAT KING can't be outrun.".yellow
+        puts "Try something else.".
+        puts "------------------------------------------------"
         pizza_rat
       when "2" #give money
+        puts "------------------------------------------------"
+        puts "You offer $5.00.".light_red
+        puts "The RAT KING is pleased with your offer".yellow
+        puts "You quickly walk away,".yellow
+        puts "------------------------------------------------"
         self.wallet -= 5.00
       when "3" #fight
         fight_rat_king
@@ -370,46 +389,82 @@ class Adventure < ActiveRecord::Base
       @rat_hp = 5
       @your_hp = 10
       weapons = ["broadsword", "stick", "taser", "little_girl", "police"]
+      puts @@d.asciify('BATTLE').light_blue.bold
+      puts ""
       while @rat_hp != 0 && @your_hp != 0
-        puts "Rat HP: #{@rat_hp}"
-        puts "Your HP: #{@your_hp}"
+        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        puts "Rat HP: #{@rat_hp}".light_red
+        puts "Your HP: #{@your_hp}".green
+        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
         your_turn(weapons)
-        puts "Rat HP: #{@rat_hp}"
-        puts "Your HP: #{@your_hp}"
+        sleep(1)
+        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        puts "Rat HP: #{@rat_hp}".light_red
+        puts "Your HP: #{@your_hp}".green
+        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
         rat_turn
+        sleep(1)
       end
     if @your_hp == 0
-      puts "You died."
+      puts "------------------------------------------------"
+      puts "THE RAT KING KILLS YOU.".light_red.blink
+      puts "------------------------------------------------"
       self.wallet = 0.0
     elsif @rat_hp == 0
-        puts "You beat the Rat King."
+      puts "------------------------------------------------"
+      puts "YOU ARE THE NEW RAT KING!".green.blink
+      puts "------------------------------------------------"
       end
-
     end
 
     def your_turn(array_weapons)
+      puts "------------------------------------------------"
+      puts " 1 - Broadsword".cyan
+      puts " 2 - Stick".cyan
+      puts " 3 - Taser".cyan
+      puts " 4 - Little Girl".cyan
+      puts " 5 - Police".cyan
+      puts "------------------------------------------------"
       input = gets.chomp
       case input
       when "1" #broadsword
-        puts "Attack with broadsword"
+        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        puts "Attack with broadsword!".yellow
+        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
         @rat_hp -= 0.5
       when "2" #stick
         if array_weapons.include?("stick")
-          puts "Attack with Stick"
+          puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+          puts "Attack with Stick!".yellow
+          puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+          puts ""
+          sleep(1)
+          puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+          puts "The stick breaks.".light_red.blink
+          puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
           @rat_hp -= 1
           array_weapons.delete_at(1)
-          puts "The stick breaks."
         else
-          puts "Your stick is broken."
+          puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+          puts "Your stick is broken.".light_red.blink
+          puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
         end
       when "3" #taser
-        puts "You try to attack with taser."
+        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        puts "Attack with taser.".yellow
+        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+        sleep(1)
+        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        puts "RAT KING steals the taser and tases you.".light_red.blink
+        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
         @your_hp -= 2
       when "4" #little_girl
-        puts "The little girl"
         litte_girl_comes(@your_hp, @rat_hp)
       when "5" #police
-        puts "You call the police, but they under the control of the rat king."
+        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        puts "You call the police,".yellow
+        puts "but they under the control of the RAT KING.".light_red
+        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
       end
     end
 
@@ -418,27 +473,37 @@ class Adventure < ActiveRecord::Base
       case attack_choice
       when 1
         # sends rats
-        puts "Sends rats"
+        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        puts "RAT KING sends a Royal Rat Subject to attack.".light_red
+        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
         @your_hp -= 1
       when 2
         # bites
-        puts "Bites"
+        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        puts "RAT KING bites your pretty face!".light_red
+        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
         @your_hp -= 2
       when 3
         # eats pizza
-        puts "The rat king eats pizza."
+        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        puts "The rat king eats pizza - kinda cute...".green
+        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
       end
     end
 
     def litte_girl_comes(your_hp, rat_hp)
-      chance = rand(1..4)
+      chance = rand(1..3)
       if chance == 1
         #kills rat
-        puts "Little girl kills Rat King"
+        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        puts "Daisy (little girl) kills RAT KING!".green.blink
+        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
         @rat_hp = 0
       else
         #little girl does nothing
-        puts "Little girl does nothing."
+        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        puts "Little girl runs away in fear.".light_red.blink
+        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
       end
     end
 

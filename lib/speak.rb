@@ -9,7 +9,7 @@ module Speak
   @@g = Artii::Base.new :font => 'epic'
   @@h = Artii::Base.new :font => 'isometric2'
   @@i = Artii::Base.new :font => 'isometric1'
-  
+
   def greet_and_rules
     puts @@a.asciify('DON\'T LET NYC')
     puts @@a.asciify('TAKE YOUR MONEY').colorize(:light_red)
@@ -129,6 +129,7 @@ module Speak
 
   def goodbye_message
     sleep(2)
+    puts ""
     puts "#########################################"
     puts "#     Sorry you don't want to play.     #"
     puts "# Guess you have better things to do... #"
