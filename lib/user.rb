@@ -53,7 +53,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def set_high_score?(score)
+  def set_high_score?(adventure)
+    score = adventure.score_calculator
     if score > self.high_score
       self.high_score = score
       self.save
