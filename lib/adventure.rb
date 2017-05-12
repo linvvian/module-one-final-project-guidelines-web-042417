@@ -207,7 +207,7 @@ class Adventure < ActiveRecord::Base
     puts "A homeless guy approaches you, asking for money.".yellow
     puts "What do you do?".yellow
     puts "------------------------------------------------"
-    while self.wallet_now > 0.0 || money_given > 10.00
+    while self.wallet_now > 0.0 && money_given < 10.00
       puts "------------------------------------------------"
       puts " 1 - Give him $1.00".cyan
       puts " 2 - Ignore him".cyan
@@ -238,50 +238,67 @@ class Adventure < ActiveRecord::Base
         puts "------------------------------------------------"
         break
       when "roulette", "r", "4"
+        puts ""
         puts "DING DING DING"
-        puts "Prepare for battle!!!!"
-        puts "You face off the homeless man in a game of Russian Roulette"
-        puts "You go first"
+        puts "Prepare for battle!!!!".yellow
+        puts "You face off the homeless man in a game of".yellow
+        puts "Russian Roulette".yellow
+        puts "You go first".yellow
+        puts ""
         russian_roulette(counter, money_given)
         break
       else
         not_valid_input
       end
     end
-    if self.wallet_now <= 0.0
+    if self.wallet_now < 0.0
       puts ""
       puts "------------------------------------------------"
       puts "You ran out of money... Homeless guy leaves.".red.blink
       puts "------------------------------------------------"
       puts ""
+    elsif money_given == 10.00
+      puts "------------------------------------------------"
+      puts "Wow. Really?"
+      sleep(1)
+      puts "The homeless guy happily goes away and finally".yellow
+      puts "leaves you alone.".yellow
+      puts "But you lost $10 dollars. Good job!".yellow
+      puts "------------------------------------------------"
     end
   end
 
   def russian_roulette(counter, money)
     while counter != 1
-      puts "Your turn"
+      puts "Your turn".yellow
       gets.chomp
       x = rand(1..counter)
       if x == 1
-        puts "You died. He takes all your $$"
+        puts "*bang*".light_red
+        puts "You died. He takes all your $$".light_red
+        puts ""
         @wallet_now = 0.0
         break
       end
       puts "*CLICK*"
+      puts ""
       counter -= 1
       sleep(1)
-      puts "His turn"
-      sleep(1)
+      puts "His turn".yellow
+      puts ""
+      sleep(1.5)
       x = rand(1..counter)
       if x == 1
         pickedUP = rand(5.0..15.0)
         pickedUP = pickedUP.round(2)
-        puts "HE DIES"
-        puts "Lucky you. You got your money back: $#{money} and you got from the homeless guy $#{pickedUP}."
+        puts "*bang*".light_red
+        puts "HE DIES".light_red
+        puts "Lucky you. You got your money back: $#{money} and you got from the homeless guy $#{pickedUP}.".green
         @wallet_now = @wallet_now + money + pickedUP
         break
       end
       puts "*CLICK*"
+      puts ""
       counter -= 1
     end
   end

@@ -29,6 +29,8 @@ class CommandLineInterface
     when "5", "exit", "quit"
       goodbye_message
       exit
+    when "back"
+      greet
     else
       not_valid_input
       choose_adventure
