@@ -5,13 +5,13 @@ class Adventure < ActiveRecord::Base
   has_many :meal_choices
   has_many :restaurants, through: :meal_choices
 
-  attr_accessor :wallet_now, :start_wallet, :array, :count
+  attr_accessor :start_wallet, :array, :count
 
   def self.start_new_adventure(userID)
     adventure = Adventure.create
     #adventure.count = 1
     adventure.start_wallet = 30.00
-    adventure.wallet_now = 30.00
+    adventure.wallet = 30.00
     adventure.array = []
     adventure.tap {|adventure| adventure.user_id = userID}
   end
@@ -22,14 +22,14 @@ class Adventure < ActiveRecord::Base
     adventure.give_options
     adventure.calculate_meal
     adventure.reset_choice_array
-    adventure.random_event if adventure.wallet_now > 0.0 && round != 3
+    adventure.random_event if adventure.wallet > 0.0 && round != 3
   end
 
   def display_wallet
     puts "_________________________________________".green
     puts "|\\__________________^__________________/|".green
     puts "| ----------------  ^  ---------------- |".green
-    puts "| You have $#{self.wallet_now.round}      ^    in your wallet |".green
+    puts "| You have $#{self.wallet.round}      ^    in your wallet |".green
     puts "| ----------------  ^  ---------------- |".green
     puts "|___________________^___________________|".green
   end
@@ -55,14 +55,14 @@ class Adventure < ActiveRecord::Base
   end
 
   def calculate_meal
-    self.wallet_now -= price_calculate
-    if self.wallet_now < 0.0
+    self.wallet -= price_calculate
+    if self.wallet < 0.0
       puts "------------------------------------------------"
       puts "You don't have enough money!".light_red
-      puts "You went over by $#{(self.wallet_now.round(2) * -1)}.".green
+      puts "You went over by $#{(self.wallet.round(2) * -1)}.".green
       puts "Time to WASH DISHES!".light_red
       puts "------------------------------------------------"
-    elsif self.wallet_now == 0.0
+    elsif self.wallet == 0.0
       puts "------------------------------------------------"
       puts "You just blew all your money.".light_red.blink
       puts "Good luck getting through the rest of you day".light_red.blink
@@ -116,7 +116,7 @@ class Adventure < ActiveRecord::Base
   end
 
   def score_calculator
-    self.score = (self.wallet_now.round(2) / @start_wallet) * 10000
+    self.score = (self.wallet.round(2) / @start_wallet) * 10000
     self.score = self.score.round
   end
 
@@ -153,7 +153,7 @@ class Adventure < ActiveRecord::Base
 
   def lost_wallet
     stolen_wallet_message
-    self.wallet_now = 0.0
+    self.wallet = 0.0
   end
 
   def found_money
@@ -170,8 +170,8 @@ class Adventure < ActiveRecord::Base
     input = gets.chomp
     case input.to_i
     when 1
-      self.wallet_now += 20.00
-      self.wallet_now -= 30.00
+      self.wallet += 20.00
+      self.wallet -= 30.00
       puts "------------------------------------------------"
       puts "Nice! You got an extra 20 bucks.".green
       puts "But you lost your MetroCard that had $30 in it,".light_red
@@ -192,8 +192,8 @@ class Adventure < ActiveRecord::Base
       puts "But you have to pay for it, so -$25.".light_red
       puts "(Your buddy only drinks the 'nice' stuff...)".yellow
       puts "------------------------------------------------"
-      self.wallet_now += 20.00
-      self.wallet_now -= 25.00
+      self.wallet += 20.00
+      self.wallet -= 25.00
     else
       not_valid_input
       found_money
@@ -207,7 +207,7 @@ class Adventure < ActiveRecord::Base
     puts "A homeless guy approaches you, asking for money.".yellow
     puts "What do you do?".yellow
     puts "------------------------------------------------"
-    while self.wallet_now > 0.0 && money_given < 10.00
+    while self.wallet > 0.0 && money_given < 10.00
       puts "------------------------------------------------"
       puts " 1 - Give him $1.00".cyan
       puts " 2 - Ignore him".cyan
@@ -217,7 +217,7 @@ class Adventure < ActiveRecord::Base
       input = gets.chomp
       case input.downcase
       when "1"
-        self.wallet_now -= 1.00
+        self.wallet -= 1.00
         puts "------------------------------------------------"
         puts "The homeless guy happily snatches your dollar.".light_red
         puts "But at the next stop light, there he is again...".yellow
@@ -234,7 +234,7 @@ class Adventure < ActiveRecord::Base
         puts "What do you do?".yellow
         puts "------------------------------------------------"
       when "3"
-        self.wallet_now -= 5.00
+        self.wallet -= 5.00
         puts "------------------------------------------------"
         puts "Good for you. Homeless guy leaves.".yellow
         puts "------------------------------------------------"
@@ -253,7 +253,7 @@ class Adventure < ActiveRecord::Base
         not_valid_input
       end
     end
-    if self.wallet_now < 0.0
+    if self.wallet < 0.0
       puts ""
       puts "------------------------------------------------"
       puts "You ran out of money... Homeless guy leaves.".red.blink
@@ -279,7 +279,7 @@ class Adventure < ActiveRecord::Base
         puts "*bang*".light_red
         puts "You died. He takes all your $$".light_red
         puts ""
-        @wallet_now = 0.0
+        self.wallet = 0.0
         break
       end
       puts "*CLICK*"
@@ -296,7 +296,7 @@ class Adventure < ActiveRecord::Base
         puts "*bang*".light_red
         puts "HE DIES".light_red
         puts "Lucky you. You got your money back: $#{money} and you got from the homeless guy $#{pickedUP}.".green
-        @wallet_now = @wallet_now + money + pickedUP
+        self.wallet = self.wallet + money + pickedUP
         break
       end
       puts "*CLICK*"
@@ -323,7 +323,7 @@ class Adventure < ActiveRecord::Base
         puts "On your way to the restaurant you find a crisp".green
         puts "5 dollar bill on the ground. Score!".green
         puts "------------------------------------------------"
-        self.wallet_now += 5.00
+        self.wallet += 5.00
       when 2
         puts "------------------------------------------------"
         puts "Nice. Time is money, and you can't be bothered.".yellow
@@ -340,7 +340,7 @@ class Adventure < ActiveRecord::Base
         puts "Hmmm....actually he's better off in New Jersey.".yellow
         puts "Nice job! Have a penny.".green
         puts "------------------------------------------------"
-        self.wallet_now += 0.01
+        self.wallet += 0.01
       else
         not_valid_input
         tourist_encounter

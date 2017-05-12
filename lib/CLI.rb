@@ -38,7 +38,7 @@ class CommandLineInterface
   end
 
   def round_start
-    if @adventure.wallet_now > 0.0
+    if @adventure.wallet > 0.0
       if @round <= 3
         Adventure.begin_round(@adventure,@round)
         @round += 1

@@ -121,7 +121,7 @@ module Speak
   def finished_end_of_game_message
     puts @@b.asciify('You finished the day with').yellow
     puts ''
-    puts @@b.asciify("$#{@adventure.wallet_now.round(2)}").green
+    puts @@b.asciify("$#{@adventure.wallet.round(2)}").green
     puts ''
     puts @@b.asciify('left in your wallet.').yellow
     puts ''
