@@ -9,8 +9,7 @@ module Speak
   @@g = Artii::Base.new :font => 'epic'
   @@h = Artii::Base.new :font => 'isometric2'
   @@i = Artii::Base.new :font => 'isometric1'
-
-
+  
   def greet_and_rules
     puts @@a.asciify('DON\'T LET NYC')
     puts @@a.asciify('TAKE YOUR MONEY').colorize(:light_red)
