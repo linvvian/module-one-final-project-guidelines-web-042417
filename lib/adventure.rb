@@ -135,7 +135,8 @@ class Adventure < ActiveRecord::Base
   end
 
   def random_event
-    number = rand(1..10)
+    #number = rand(1..10)
+    number = 5
     case number
     when 4
       lost_wallet
@@ -148,6 +149,8 @@ class Adventure < ActiveRecord::Base
     when 2
       display_wallet
       tourist_encounter
+    when 5
+      pizza_rat
     end
     #@count += 1
   end
@@ -213,7 +216,7 @@ class Adventure < ActiveRecord::Base
       puts " 1 - Give him $1.00".cyan
       puts " 2 - Ignore him".cyan
       puts " 3 - Give him $5.00".cyan
-      puts " 4 - Homeless Roulette".black
+      puts " 4 - Homeless Roulette".hide
       puts "------------------------------------------------"
       input = gets.chomp
       case input.downcase
@@ -347,4 +350,96 @@ class Adventure < ActiveRecord::Base
         tourist_encounter
       end
     end
+
+    def pizza_rat
+      puts "You encounter a wild Rat."
+      input = gets.chomp
+      case input
+      when "1" #run
+        pizza_rat
+      when "2" #give money
+        self.wallet -= 5.00
+      when "3" #fight
+        fight_rat_king
+      else
+        pizza_rat
+      end
+    end
+
+    def fight_rat_king
+      @rat_hp = 5
+      @your_hp = 10
+      weapons = ["broadsword", "stick", "taser", "little_girl", "police"]
+      while @rat_hp != 0 && @your_hp != 0
+        puts "Rat HP: #{@rat_hp}"
+        puts "Your HP: #{@your_hp}"
+        your_turn(weapons)
+        puts "Rat HP: #{@rat_hp}"
+        puts "Your HP: #{@your_hp}"
+        rat_turn
+      end
+    if @your_hp == 0
+      puts "You died."
+      self.wallet = 0.0
+    elsif @rat_hp == 0
+        puts "You beat the Rat King."
+      end
+
+    end
+
+    def your_turn(array_weapons)
+      input = gets.chomp
+      case input
+      when "1" #broadsword
+        puts "Attack with broadsword"
+        @rat_hp -= 0.5
+      when "2" #stick
+        if array_weapons.include?("stick")
+          puts "Attack with Stick"
+          @rat_hp -= 1
+          array_weapons.delete_at(1)
+          puts "The stick breaks."
+        else
+          puts "Your stick is broken."
+        end
+      when "3" #taser
+        puts "You try to attack with taser."
+        @your_hp -= 2
+      when "4" #little_girl
+        puts "The little girl"
+        litte_girl_comes(@your_hp, @rat_hp)
+      when "5" #police
+        puts "You call the police, but they under the control of the rat king."
+      end
+    end
+
+    def rat_turn
+      attack_choice = rand(1..3)
+      case attack_choice
+      when 1
+        # sends rats
+        puts "Sends rats"
+        @your_hp -= 1
+      when 2
+        # bites
+        puts "Bites"
+        @your_hp -= 2
+      when 3
+        # eats pizza
+        puts "The rat king eats pizza."
+      end
+    end
+
+    def litte_girl_comes(your_hp, rat_hp)
+      chance = rand(1..4)
+      if chance == 1
+        #kills rat
+        puts "Little girl kills Rat King"
+        @rat_hp = 0
+      else
+        #little girl does nothing
+        puts "Little girl does nothing."
+      end
+    end
+
 end
