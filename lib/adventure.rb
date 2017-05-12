@@ -274,7 +274,7 @@ class Adventure < ActiveRecord::Base
   def russian_roulette(counter, money)
     while counter != 1
       puts "Your turn".yellow
-      gets.chomp
+      STDIN.getch
       chance = rand(1..counter)
       if chance == 1
         puts "*bang*".light_red
