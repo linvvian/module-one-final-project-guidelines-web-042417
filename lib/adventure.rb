@@ -5,13 +5,14 @@ class Adventure < ActiveRecord::Base
   has_many :meal_choices
   has_many :restaurants, through: :meal_choices
 
-  attr_accessor :start_wallet, :array, :count
+  attr_accessor :start_wallet, :array
 
   def self.start_new_adventure(userID)
     adventure = Adventure.create
     #adventure.count = 1
+    adventure.score = 0
     adventure.start_wallet = 30.00
-    adventure.wallet = 30.00
+    adventure.wallet = adventure.start_wallet
     adventure.array = []
     adventure.tap {|adventure| adventure.user_id = userID}
   end

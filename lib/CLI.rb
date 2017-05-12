@@ -49,7 +49,6 @@ class CommandLineInterface
       end
     else
       lost_end_game_message
-      @adventure.score = 0
     end
     @adventure.save
     return_main_menu_message
