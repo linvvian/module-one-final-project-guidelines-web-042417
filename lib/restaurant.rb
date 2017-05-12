@@ -1,4 +1,6 @@
 class Restaurant < ActiveRecord::Base
+  include Speak
+
   has_many :meal_choices
   has_many :adventures, through: :meal_choices
 
@@ -43,5 +45,14 @@ class Restaurant < ActiveRecord::Base
   def self.random_restaurant
     x = Neighborhood.picks_hood
     self.find(x)
+  end
+
+  def self.show_top_restaurants
+    puts @@d.asciify('TOP 5 RESTUARANTS').light_magenta.bold
+    puts "................................................"
+    MealChoice.all.group(:restaurant_id).order("count(restaurant_id) desc").limit(5).count.each do |k,v|
+      puts "* #{self.find(k).name} - #{v} Picks *".green
+      puts "................................................"
+    end
   end
 end
