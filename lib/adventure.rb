@@ -404,6 +404,7 @@ class Adventure < ActiveRecord::Base
       @rat_hp = 5
       @your_hp = 10
       weapons = ["Broadsword", "Stick", "Taser", "Little Girl", "Police"]
+      @stick_used = 0
       puts @@d.asciify('BATTLE').light_blue.bold
       puts ""
       while @rat_hp > 0 && @your_hp > 0
@@ -430,6 +431,7 @@ class Adventure < ActiveRecord::Base
       puts "------------------------------------------------"
       puts "YOU ARE THE NEW RAT KING!".green.blink
       puts "------------------------------------------------"
+      sleep(1)
       end
     end
 
@@ -441,7 +443,7 @@ class Adventure < ActiveRecord::Base
       puts "------------------------------------------------"
       input = gets.chomp
       index = input.to_i - 1
-      chosen_weapon = array_weapons[index] if index > 0
+      chosen_weapon = array_weapons[index] if index >= 0
       case chosen_weapon
       when "Broadsword" #broadsword
         puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
@@ -449,7 +451,7 @@ class Adventure < ActiveRecord::Base
         puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
         @rat_hp -= 0.5
       when "Stick" #stick
-        if array_weapons.include?("Stick") && array_weapons.index("Stick ") == 1
+        if array_weapons.include?("Stick") && @stick_used == 0
           puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
           puts "Attack with Stick!".yellow
           puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
@@ -459,9 +461,7 @@ class Adventure < ActiveRecord::Base
           puts "The stick breaks.".light_red.blink
           puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
           @rat_hp -= 2
-          array_weapons.delete_at(1)
-          array_weapons.each_index { |x| x + 1 if x > 1 }
-          array_weapons[2] = "Stick"
+          @stick_used += 1
         else
           puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
           puts "Your stick is broken.".light_red.blink
