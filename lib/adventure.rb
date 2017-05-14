@@ -139,16 +139,16 @@ class Adventure < ActiveRecord::Base
     case number
     when 4
       lost_wallet
-    when 1
+    when 1, 8
       display_wallet
       found_money
-    when 3
+    when 3, 9
       display_wallet
       comes_homeless
-    when 2
+    when 2, 7
       display_wallet
       tourist_encounter
-    when 5
+    when 5, 6
       pizza_rat
     end
     #@count += 1
@@ -180,11 +180,13 @@ class Adventure < ActiveRecord::Base
       puts "But you lost your MetroCard that had $30 in it,".light_red
       puts "you need to buy another one.".light_red
       puts "------------------------------------------------"
+      sleep(1)
     when 2
       puts "------------------------------------------------"
       puts "Good for you. The old lady appreciated it.".yellow
       puts "She offers you some chocolate.".green
       puts "------------------------------------------------"
+      sleep(1)
     when 3
       puts "------------------------------------------------"
       puts "Really?".yellow
@@ -195,6 +197,7 @@ class Adventure < ActiveRecord::Base
       puts "But you have to pay for it, so -$25.".light_red
       puts "(Your buddy only drinks the 'nice' stuff...)".yellow
       puts "------------------------------------------------"
+      sleep(1)
       self.wallet += 20.00
       self.wallet -= 25.00
     else
@@ -215,7 +218,7 @@ class Adventure < ActiveRecord::Base
       puts " 1 - Give him $1.00".cyan
       puts " 2 - Ignore him".cyan
       puts " 3 - Give him $5.00".cyan
-      puts " 4 - Homeless Roulette".hide
+      puts " 4 - Homeless Roulette".black
       puts "------------------------------------------------"
       input = gets.chomp
       case input.downcase
@@ -224,6 +227,7 @@ class Adventure < ActiveRecord::Base
         puts "------------------------------------------------"
         puts "The homeless guy happily snatches your dollar.".light_red
         puts "But at the next stop light, there he is again...".yellow
+        sleep(1)
         puts "What do you do?".yellow
         puts "------------------------------------------------"
         money_given += 1
@@ -241,6 +245,7 @@ class Adventure < ActiveRecord::Base
         puts "------------------------------------------------"
         puts "Good for you. Homeless guy leaves.".yellow
         puts "------------------------------------------------"
+        sleep(1)
         break
       when "roulette", "r", "4"
         puts ""
@@ -262,14 +267,15 @@ class Adventure < ActiveRecord::Base
       puts "You ran out of money... Homeless guy leaves.".red.blink
       puts "------------------------------------------------"
       puts ""
+      sleep(1)
     elsif money_given == 10.00
       puts "------------------------------------------------"
       puts "Wow. Really?"
-      sleep(1)
       puts "The homeless guy happily goes away and finally".yellow
       puts "leaves you alone.".yellow
       puts "But you lost $10 dollars. Good job!".yellow
       puts "------------------------------------------------"
+      sleep(1)
     end
   end
 
@@ -282,6 +288,7 @@ class Adventure < ActiveRecord::Base
         puts "*bang*".light_red
         puts "You died. He takes all your $$".light_red
         puts ""
+        sleep(1)
         self.wallet = 0.0
         break
       end
@@ -290,7 +297,6 @@ class Adventure < ActiveRecord::Base
       counter -= 1
       sleep(1)
       puts "His turn".yellow
-      puts ""
       sleep(1.5)
       chance = rand(1..counter)
       if chance == 1
@@ -300,6 +306,7 @@ class Adventure < ActiveRecord::Base
         puts "HE DIES".light_red
         puts "Lucky you. You got your money back: $#{money} and you got from the homeless guy $#{picked_up}.".green
         self.wallet = self.wallet + money + picked_up
+        sleep(1)
         break
       end
       puts "*CLICK*"
@@ -326,6 +333,7 @@ class Adventure < ActiveRecord::Base
         puts "On your way to the restaurant you find a crisp".green
         puts "5 dollar bill on the ground. Score!".green
         puts "------------------------------------------------"
+        sleep(1)
         self.wallet += 5.00
       when 2
         puts "------------------------------------------------"
@@ -333,6 +341,7 @@ class Adventure < ActiveRecord::Base
         puts "Wait, where's your wallet????".light_red
         puts "That so-called tourist scammed you!".light_red
         puts "------------------------------------------------"
+        sleep(1)
         lost_wallet
       when 3
         puts "------------------------------------------------"
@@ -343,6 +352,7 @@ class Adventure < ActiveRecord::Base
         puts "Hmmm....actually he's better off in New Jersey.".yellow
         puts "Nice job! Have a penny.".green
         puts "------------------------------------------------"
+        sleep(1)
         self.wallet += 0.01
       else
         not_valid_input
@@ -357,8 +367,8 @@ class Adventure < ActiveRecord::Base
       puts "It must be the NYC RAT KING!".yellow
       puts "Do you:".yellow
       puts "------------------------------------------------"
-      puts " 1 - Run.".cyan
-      puts " 2 - Pay tribute.".cyan
+      puts " 1 - Run".cyan
+      puts " 2 - Pay tribute".cyan
       puts " 3 - Duel".cyan
       puts "------------------------------------------------"
       puts ''
@@ -368,8 +378,9 @@ class Adventure < ActiveRecord::Base
         puts "------------------------------------------------"
         puts "Running is of no use".yellow
         puts "The RAT KING can't be outrun.".yellow
-        puts "Try something else.".
+        puts "Try something else.".yellow
         puts "------------------------------------------------"
+        sleep(1)
         pizza_rat
       when "2" #give money
         puts "------------------------------------------------"
@@ -377,10 +388,12 @@ class Adventure < ActiveRecord::Base
         puts "The RAT KING is pleased with your offer".yellow
         puts "You quickly walk away,".yellow
         puts "------------------------------------------------"
+        sleep(1)
         self.wallet -= 5.00
       when "3" #fight
         fight_rat_king
       else
+        not_valid_input
         pizza_rat
       end
     end
@@ -388,15 +401,16 @@ class Adventure < ActiveRecord::Base
     def fight_rat_king
       @rat_hp = 5
       @your_hp = 10
-      weapons = ["broadsword", "stick", "taser", "little_girl", "police"]
+      weapons = ["Broadsword", "Stick", "Taser", "Little Girl", "Police"]
       puts @@d.asciify('BATTLE').light_blue.bold
       puts ""
-      while @rat_hp != 0 && @your_hp != 0
+      while @rat_hp > 0 && @your_hp > 0
         puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
         puts "Rat HP: #{@rat_hp}".light_red
         puts "Your HP: #{@your_hp}".green
         puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
         your_turn(weapons)
+        break if @rat_hp <= 0
         sleep(1)
         puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
         puts "Rat HP: #{@rat_hp}".light_red
@@ -405,12 +419,12 @@ class Adventure < ActiveRecord::Base
         rat_turn
         sleep(1)
       end
-    if @your_hp == 0
+    if @your_hp <= 0
       puts "------------------------------------------------"
       puts "THE RAT KING KILLS YOU.".light_red.blink
       puts "------------------------------------------------"
       self.wallet = 0.0
-    elsif @rat_hp == 0
+    elsif @rat_hp <= 0
       puts "------------------------------------------------"
       puts "YOU ARE THE NEW RAT KING!".green.blink
       puts "------------------------------------------------"
@@ -419,21 +433,21 @@ class Adventure < ActiveRecord::Base
 
     def your_turn(array_weapons)
       puts "------------------------------------------------"
-      puts " 1 - Broadsword".cyan
-      puts " 2 - Stick".cyan
-      puts " 3 - Taser".cyan
-      puts " 4 - Little Girl".cyan
-      puts " 5 - Police".cyan
+      array_weapons.each_index do |i|
+        puts "#{i+1} - #{array_weapons[i]}".cyan
+      end
       puts "------------------------------------------------"
       input = gets.chomp
-      case input
-      when "1" #broadsword
+      index = input.to_i - 1
+      chosen_weapon = array_weapons[index] if index > 0
+      case chosen_weapon
+      when "Broadsword" #broadsword
         puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
         puts "Attack with broadsword!".yellow
         puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
         @rat_hp -= 0.5
-      when "2" #stick
-        if array_weapons.include?("stick")
+      when "Stick" #stick
+        if array_weapons.include?("Stick") && array_weapons.index("Stick ") == 1
           puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
           puts "Attack with Stick!".yellow
           puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
@@ -442,14 +456,16 @@ class Adventure < ActiveRecord::Base
           puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
           puts "The stick breaks.".light_red.blink
           puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-          @rat_hp -= 1
+          @rat_hp -= 2
           array_weapons.delete_at(1)
+          array_weapons.each_index { |x| x + 1 if x > 1 }
+          array_weapons[2] = "Stick"
         else
           puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
           puts "Your stick is broken.".light_red.blink
           puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
         end
-      when "3" #taser
+      when "Taser" #taser
         puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
         puts "Attack with taser.".yellow
         puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
@@ -458,13 +474,18 @@ class Adventure < ActiveRecord::Base
         puts "RAT KING steals the taser and tases you.".light_red.blink
         puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
         @your_hp -= 2
-      when "4" #little_girl
+        array_weapons.delete_at(array_weapons.index("Taser"))
+      when "Little Girl" #little_girl
         litte_girl_comes(@your_hp, @rat_hp)
-      when "5" #police
+      when "Police" #police
         puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
         puts "You call the police,".yellow
         puts "but they under the control of the RAT KING.".light_red
         puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+        array_weapons.delete_at(array_weapons.index("Police"))
+      else
+        not_valid_input
+        your_turn(array_weapons)
       end
     end
 
