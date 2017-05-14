@@ -32,7 +32,7 @@ forget to keep your eyes peeled. But remember s**t HAPPENS!
 
 Clone this repository by running:
 ```
-$ git clone https://github.com/nkernis/module-one-final-project-guidelines-web-042417.git
+$ git clone https://github.com/linvvian/module-one-final-project-guidelines-web-042417.git
 ```
 
 ### Play
