@@ -30,7 +30,7 @@ class Adventure < ActiveRecord::Base
     puts "_________________________________________".green
     puts "|\\__________________^__________________/|".green
     puts "| ----------------  ^  ---------------- |".green
-    puts "| You have $#{self.wallet.round}      ^    in your wallet |".green
+    puts "| You have $#{Money.new(self.wallet*100, "USD")}   ^    in your wallet |".green
     puts "| ----------------  ^  ---------------- |".green
     puts "|___________________^___________________|".green
   end
@@ -40,15 +40,15 @@ class Adventure < ActiveRecord::Base
     wallet_hit = 0.00
     case price
     when 1
-      wallet_hit = rand(5.0..8.0).round(2)
+      wallet_hit = rand(5.0..8.0)
     when 2
-      wallet_hit = rand(10.0..13.0).round(2)
+      wallet_hit = rand(10.0..13.0)
     when 3
-      wallet_hit = rand(14.0..16.0).round(2)
+      wallet_hit = rand(14.0..16.0)
     when 4
-      wallet_hit = rand(17.0..19.0).round(2)
+      wallet_hit = rand(17.0..19.0)
     when 5
-      wallet_hit = rand(20.0..25.0).round(2)
+      wallet_hit = rand(20.0..25.0)
     else
       wallet_hit = 30.00
     end
@@ -60,7 +60,7 @@ class Adventure < ActiveRecord::Base
     if self.wallet < 0.0
       puts "------------------------------------------------"
       puts "You don't have enough money!".light_red
-      puts "You went over by $#{(self.wallet.round(2) * -1)}.".green
+      puts "You went over by $#{(Money.new(self.wallet*100, "USD") * -1)}.".green
       puts "Time to WASH DISHES!".light_red
       puts "------------------------------------------------"
     elsif self.wallet == 0.0
@@ -119,7 +119,7 @@ class Adventure < ActiveRecord::Base
   end
 
   def score_calculator
-    self.score = (self.wallet.round(2) / @start_wallet) * 10000
+    self.score = (self.wallet / @start_wallet) * 10000
     self.score = self.score.round
   end
 
@@ -318,216 +318,215 @@ class Adventure < ActiveRecord::Base
   end
 
   def tourist_encounter
+    puts "------------------------------------------------"
+    puts "A tourist asks for directions to Times Square.".yellow
+    puts "Do you:".yellow
+    puts "------------------------------------------------"
+    puts " 1 - Give him instructions on how to get there".cyan
+    puts " 2 - Lie to him and tell him you don't know".cyan
+    puts " 3 - Deliberately mislead him to Jersey".cyan
+    puts "------------------------------------------------"
+    puts ''
+    input = gets.chomp
+    case input.to_i
+    when 1
       puts "------------------------------------------------"
-      puts "A tourist asks for directions to Times Square.".yellow
-      puts "Do you:".yellow
-      puts "------------------------------------------------"
-      puts " 1 - Give him instructions on how to get there".cyan
-      puts " 2 - Lie to him and tell him you don't know".cyan
-      puts " 3 - Deliberately mislead him to Jersey".cyan
-      puts "------------------------------------------------"
-      puts ''
-      input = gets.chomp
-      case input.to_i
-      when 1
-        puts "------------------------------------------------"
-        puts "How nice of you! He's walks off happily.".yellow
-        puts "On your way to the restaurant you find a crisp".green
-        puts "5 dollar bill on the ground. Score!".green
-        puts "------------------------------------------------"
-        sleep(1)
-        self.wallet += 5.00
-      when 2
-        puts "------------------------------------------------"
-        puts "Nice. Time is money, and you can't be bothered.".yellow
-        puts "Wait, where's your wallet????".light_red
-        puts "That so-called tourist scammed you!".light_red
-        puts "------------------------------------------------"
-        sleep(1)
-        lost_wallet
-      when 3
-        puts "------------------------------------------------"
-        puts "How cruel of you. All he wanted was to see the".yellow
-        puts "neon billboards, sketchy Elmos and maybe".yellow
-        puts "grab an overpriced meal at Bubba Gump Shrimp".yellow
-        puts "Company.".yellow
-        puts "Hmmm....actually he's better off in New Jersey.".yellow
-        puts "Nice job! Have a penny.".green
-        puts "------------------------------------------------"
-        sleep(1)
-        self.wallet += 0.01
-      else
-        not_valid_input
-        tourist_encounter
-      end
-    end
-
-    def pizza_rat
-      puts "------------------------------------------------"
-      puts "HOLY CRAP!!! WHAT IS THAT!?!".yellow
-      puts "You see a ginormus rat wearing a crown.".yellow
-      puts "It must be the NYC RAT KING!".yellow
-      puts "Do you:".yellow
-      puts "------------------------------------------------"
-      puts " 1 - Run".cyan
-      puts " 2 - Pay tribute".cyan
-      puts " 3 - Duel".cyan
-      puts "------------------------------------------------"
-      puts ''
-      input = gets.chomp
-      case input
-      when "1" #run
-        puts "------------------------------------------------"
-        puts "Running is of no use".yellow
-        puts "The RAT KING can't be outrun.".yellow
-        puts "Try something else.".yellow
-        puts "------------------------------------------------"
-        sleep(1)
-        pizza_rat
-      when "2" #give money
-        puts "------------------------------------------------"
-        puts "You offer $5.00.".light_red
-        puts "The RAT KING is pleased with your offer".yellow
-        puts "You quickly walk away,".yellow
-        puts "------------------------------------------------"
-        sleep(1)
-        self.wallet -= 5.00
-      when "3" #fight
-        fight_rat_king
-      else
-        not_valid_input
-        pizza_rat
-      end
-    end
-
-    def fight_rat_king
-      @rat_hp = 5
-      @your_hp = 10
-      weapons = ["Broadsword", "Stick", "Taser", "Little Girl", "Police"]
-      @stick_used = 0
-      puts @@d.asciify('BATTLE').light_blue.bold
-      puts ""
-      while @rat_hp > 0 && @your_hp > 0
-        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        puts "Rat HP: #{@rat_hp}".light_red
-        puts "Your HP: #{@your_hp}".green
-        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-        your_turn(weapons)
-        break if @rat_hp <= 0
-        sleep(1)
-        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        puts "Rat HP: #{@rat_hp}".light_red
-        puts "Your HP: #{@your_hp}".green
-        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-        rat_turn
-        sleep(1)
-      end
-    if @your_hp <= 0
-      puts "------------------------------------------------"
-      puts "THE RAT KING KILLS YOU.".light_red.blink
-      puts "------------------------------------------------"
-      self.wallet = 0.0
-    elsif @rat_hp <= 0
-      puts "------------------------------------------------"
-      puts "YOU ARE THE NEW RAT KING!".green.blink
+      puts "How nice of you! He's walks off happily.".yellow
+      puts "On your way to the restaurant you find a crisp".green
+      puts "5 dollar bill on the ground. Score!".green
       puts "------------------------------------------------"
       sleep(1)
-      end
+      self.wallet += 5.00
+    when 2
+      puts "------------------------------------------------"
+      puts "Nice. Time is money, and you can't be bothered.".yellow
+      puts "Wait, where's your wallet????".light_red
+      puts "That so-called tourist scammed you!".light_red
+      puts "------------------------------------------------"
+      sleep(1)
+      lost_wallet
+    when 3
+      puts "------------------------------------------------"
+      puts "How cruel of you. All he wanted was to see the".yellow
+      puts "neon billboards, sketchy Elmos and maybe".yellow
+      puts "grab an overpriced meal at Bubba Gump Shrimp".yellow
+      puts "Company.".yellow
+      puts "Hmmm....actually he's better off in New Jersey.".yellow
+      puts "Nice job! Have a penny.".green
+      puts "------------------------------------------------"
+      sleep(1)
+      self.wallet += 0.01
+    else
+      not_valid_input
+      tourist_encounter
     end
+  end
 
-    def your_turn(array_weapons)
+  def pizza_rat
+    puts "------------------------------------------------"
+    puts "HOLY CRAP!!! WHAT IS THAT!?!".yellow
+    puts "You see a ginormus rat wearing a crown.".yellow
+    puts "It must be the NYC RAT KING!".yellow
+    puts "Do you:".yellow
+    puts "------------------------------------------------"
+    puts " 1 - Run".cyan
+    puts " 2 - Pay tribute".cyan
+    puts " 3 - Duel".cyan
+    puts "------------------------------------------------"
+    puts ''
+    input = gets.chomp
+    case input
+    when "1" #run
       puts "------------------------------------------------"
-      array_weapons.each_index do |i|
-        puts "#{i+1} - #{array_weapons[i]}".cyan
-      end
+      puts "Running is of no use".yellow
+      puts "The RAT KING can't be outrun.".yellow
+      puts "Try something else.".yellow
       puts "------------------------------------------------"
-      input = gets.chomp
-      index = input.to_i - 1
-      chosen_weapon = array_weapons[index] if index >= 0
-      case chosen_weapon
-      when "Broadsword" #broadsword
+      sleep(1)
+      pizza_rat
+    when "2" #give money
+      puts "------------------------------------------------"
+      puts "You offer $5.00.".light_red
+      puts "The RAT KING is pleased with your offer".yellow
+      puts "You quickly walk away,".yellow
+      puts "------------------------------------------------"
+      sleep(1)
+      self.wallet -= 5.00
+    when "3" #fight
+      fight_rat_king
+    else
+      not_valid_input
+      pizza_rat
+    end
+  end
+
+  def fight_rat_king
+    @rat_hp = 5
+    @your_hp = 10
+    weapons = ["Broadsword", "Stick", "Taser", "Little Girl", "Police"]
+    @stick_used = 0
+    puts @@d.asciify('BATTLE').light_blue.bold
+    puts ""
+    while @rat_hp > 0 && @your_hp > 0
+      puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      puts "Rat HP: #{@rat_hp}".light_red
+      puts "Your HP: #{@your_hp}".green
+      puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+      your_turn(weapons)
+      break if @rat_hp <= 0
+      sleep(1)
+      puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      puts "Rat HP: #{@rat_hp}".light_red
+      puts "Your HP: #{@your_hp}".green
+      puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+      rat_turn
+      sleep(1)
+    end
+  if @your_hp <= 0
+    puts "------------------------------------------------"
+    puts "THE RAT KING KILLS YOU.".light_red.blink
+    puts "------------------------------------------------"
+    self.wallet = 0.0
+  elsif @rat_hp <= 0
+    puts "------------------------------------------------"
+    puts "YOU ARE THE NEW RAT KING!".green.blink
+    puts "------------------------------------------------"
+    sleep(1)
+    end
+  end
+
+  def your_turn(array_weapons)
+    puts "------------------------------------------------"
+    array_weapons.each_index do |i|
+      puts "#{i+1} - #{array_weapons[i]}".cyan
+    end
+    puts "------------------------------------------------"
+    input = gets.chomp
+    index = input.to_i - 1
+    chosen_weapon = array_weapons[index] if index >= 0
+    case chosen_weapon
+    when "Broadsword" #broadsword
+      puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      puts "Attack with broadsword!".yellow
+      puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+      @rat_hp -= 0.5
+    when "Stick" #stick
+      if array_weapons.include?("Stick") && @stick_used == 0
         puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        puts "Attack with broadsword!".yellow
+        puts "Attack with Stick!".yellow
         puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-        @rat_hp -= 0.5
-      when "Stick" #stick
-        if array_weapons.include?("Stick") && @stick_used == 0
-          puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-          puts "Attack with Stick!".yellow
-          puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-          puts ""
-          sleep(1)
-          puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-          puts "The stick breaks.".light_red.blink
-          puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-          @rat_hp -= 2
-          @stick_used += 1
-        else
-          puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-          puts "Your stick is broken.".light_red.blink
-          puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-        end
-      when "Taser" #taser
-        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        puts "Attack with taser.".yellow
-        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+        puts ""
         sleep(1)
         puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        puts "RAT KING steals the taser and tases you.".light_red.blink
+        puts "The stick breaks.".light_red.blink
         puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-        @your_hp -= 2
-        array_weapons.delete_at(array_weapons.index("Taser"))
-      when "Little Girl" #little_girl
-        litte_girl_comes(@your_hp, @rat_hp)
-      when "Police" #police
-        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        puts "You call the police,".yellow
-        puts "but they under the control of the RAT KING.".light_red
-        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-        array_weapons.delete_at(array_weapons.index("Police"))
+        @rat_hp -= 2
+        @stick_used += 1
       else
-        not_valid_input
-        your_turn(array_weapons)
-      end
-    end
-
-    def rat_turn
-      attack_choice = rand(1..3)
-      case attack_choice
-      when 1
-        # sends rats
         puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        puts "RAT KING sends a Royal Rat Subject to attack.".light_red
-        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-        @your_hp -= 1
-      when 2
-        # bites
-        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        puts "RAT KING bites your pretty face!".light_red
-        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-        @your_hp -= 2
-      when 3
-        # eats pizza
-        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        puts "The rat king eats pizza - kinda cute...".green
+        puts "Your stick is broken.".light_red.blink
         puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
       end
+    when "Taser" #taser
+      puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      puts "Attack with taser.".yellow
+      puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+      sleep(1)
+      puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      puts "RAT KING steals the taser and tases you.".light_red.blink
+      puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+      @your_hp -= 2
+      array_weapons.delete_at(array_weapons.index("Taser"))
+    when "Little Girl" #little_girl
+      litte_girl_comes(@your_hp, @rat_hp)
+    when "Police" #police
+      puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      puts "You call the police,".yellow
+      puts "but they under the control of the RAT KING.".light_red
+      puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+      array_weapons.delete_at(array_weapons.index("Police"))
+    else
+      not_valid_input
+      your_turn(array_weapons)
     end
+  end
 
-    def litte_girl_comes(your_hp, rat_hp)
-      chance = rand(1..3)
-      if chance == 1
-        #kills rat
-        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        puts "Daisy (little girl) kills RAT KING!".green.blink
-        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-        @rat_hp = 0
-      else
-        #little girl does nothing
-        puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        puts "Little girl runs away in fear.".light_red.blink
-        puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-      end
+  def rat_turn
+    attack_choice = rand(1..3)
+    case attack_choice
+    when 1
+      # sends rats
+      puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      puts "RAT KING sends a Royal Rat Subject to attack.".light_red
+      puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+      @your_hp -= 1
+    when 2
+      # bites
+      puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      puts "RAT KING bites your pretty face!".light_red
+      puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+      @your_hp -= 2
+    when 3
+      # eats pizza
+      puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      puts "The rat king eats pizza - kinda cute...".green
+      puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
     end
+  end
 
+  def litte_girl_comes(your_hp, rat_hp)
+    chance = rand(1..3)
+    if chance == 1
+      #kills rat
+      puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      puts "Daisy (little girl) kills RAT KING!".green.blink
+      puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+      @rat_hp = 0
+    else
+      #little girl does nothing
+      puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      puts "Little girl runs away in fear.".light_red.blink
+      puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+    end
+  end
 end
