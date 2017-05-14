@@ -175,6 +175,7 @@ class Adventure < ActiveRecord::Base
     input = gets.chomp
     case input.to_i
     when 1
+      binding.pry
       self.wallet += 20.00
       self.wallet -= 30.00
       puts "------------------------------------------------"
@@ -220,7 +221,7 @@ class Adventure < ActiveRecord::Base
       puts " 1 - Give him $1.00".cyan
       puts " 2 - Ignore him".cyan
       puts " 3 - Give him $5.00".cyan
-      puts " 4 - Homeless Roulette".black
+      puts " 4".white + " - Homeless Roulette".hide
       puts "------------------------------------------------"
       input = gets.chomp
       case input.downcase
@@ -256,6 +257,7 @@ class Adventure < ActiveRecord::Base
         puts "You face off the homeless man in a game of".yellow
         puts "Russian Roulette".yellow
         puts "You go first".yellow
+        puts "------------------------------------------------"
         puts ""
         russian_roulette(counter, money_given)
         break
@@ -283,9 +285,10 @@ class Adventure < ActiveRecord::Base
 
   def russian_roulette(counter, money)
     while counter != 1
-      puts "Your turn".yellow
+      puts "Your turn".blue
       STDIN.getch
       chance = rand(1..counter)
+      sleep(1)
       if chance == 1
         puts "*bang*".light_red
         puts "You died. He takes all your $$".light_red
@@ -297,8 +300,7 @@ class Adventure < ActiveRecord::Base
       puts "*CLICK*"
       puts ""
       counter -= 1
-      sleep(1)
-      puts "His turn".yellow
+      puts "His turn".blue
       sleep(1.5)
       chance = rand(1..counter)
       if chance == 1
