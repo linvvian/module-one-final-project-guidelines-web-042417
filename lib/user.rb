@@ -21,6 +21,11 @@ class User < ActiveRecord::Base
     elsif input.downcase == "no" || input.downcase == 'n'
       u.get_set_name
       u = u.find_user
+    elsif input.downcase == "back"
+      system('clear')
+      CommandLineInterface.new.greet
+    elsif input.downcase == "exit"
+      exit
     else
       u.not_valid_input
       self.new_user?

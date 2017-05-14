@@ -29,8 +29,6 @@ class CommandLineInterface
     when "5", "exit", "quit"
       goodbye_message
       exit
-    when "back"
-      greet
     else
       not_valid_input
       choose_adventure
@@ -53,6 +51,7 @@ class CommandLineInterface
     @adventure.save
     return_main_menu_message
     STDIN.getch
+    system('clear')
     greet
   end
 end

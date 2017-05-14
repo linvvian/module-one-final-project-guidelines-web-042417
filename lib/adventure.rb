@@ -94,6 +94,8 @@ class Adventure < ActiveRecord::Base
       not_valid_input
       choose_restaurant_message
       gets_option_choice
+    elsif input == 'exit'
+      exit
     else
       input = input.to_i
       input -= 1
